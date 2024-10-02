@@ -4,7 +4,7 @@ import bs4
 import re
 
 # Membaca CSV input
-src_df = pd.read_csv('scraping_results.csv')
+src_df = pd.read_csv('capitaldistrictmoms/Aquatics.csv')
 
 # Fungsi untuk memeriksa apakah URL memiliki skema (http/https)
 def format_url(url):
@@ -13,25 +13,25 @@ def format_url(url):
     return url
 
 # Fungsi untuk mendapatkan nomor telepon
-def get_phone(soup, response_text):
-    try:
-        phone = soup.select("a[href*=callto]")[0].text
-        return phone
-    except IndexError:
-        pass
+# def get_phone(soup, response_text):
+#     try:
+#         phone = soup.select("a[href*=callto]")[0].text
+#         return phone
+#     except IndexError:
+#         pass
 
-    try:
-        phone = re.findall(r'\(?\b[2-9][0-9]{2}\)?[-][2-9][0-9]{2}[-][0-9]{4}\b', response_text)[0]
-        return phone
-    except IndexError:
-        pass
+#     try:
+#         phone = re.findall(r'\(?\b[2-9][0-9]{2}\)?[-][2-9][0-9]{2}[-][0-9]{4}\b', response_text)[0]
+#         return phone
+#     except IndexError:
+#         pass
 
-    try:
-        phone = re.findall(r'\(?\b[2-9][0-9]{2}\)?[-. ]?[2-9][0-9]{2}[-. ]?[0-9]{4}\b', response_text)[-1]
-        return phone
-    except IndexError:
-        print('Phone number not found')
-        return ''
+#     try:
+#         phone = re.findall(r'\(?\b[2-9][0-9]{2}\)?[-. ]?[2-9][0-9]{2}[-. ]?[0-9]{4}\b', response_text)[-1]
+#         return phone
+#     except IndexError:
+#         print('Phone number not found')
+#         return ''
 
 # Fungsi untuk mendapatkan email
 def get_email(soup, response_text):
@@ -50,7 +50,7 @@ def get_email(soup, response_text):
 # Fungsi untuk mencari tautan 'contact', 'about', dll.
 def find_additional_pages(soup, base_url):
     links = soup.find_all('a', href=True)
-    keywords = ['contacts', 'contact', 'about', 'contact-us', 'about-us']
+    keywords = ['contact-us','about-us', 'contact', 'about', 'contacts',  'how-to-help','Contact_Us']
     
     for link in links:
         href = link['href'].lower()
@@ -73,7 +73,7 @@ for i, row in src_df.iterrows():
         continue
 
     # Mendapatkan phone dan email dari halaman utama
-    phone = get_phone(soup, response.text)
+    # phone = get_phone(soup, response.text)
     email = get_email(soup, response.text)
 
     # Jika email tidak ditemukan di halaman utama, coba di halaman 'contact' atau 'about'
@@ -90,9 +90,10 @@ for i, row in src_df.iterrows():
                 print(f'Unsuccessful on additional page: {e}')
 
     # Menyimpan hasil ke DataFrame
-    src_df.loc[i, 'Phone'] = phone
+    # src_df.loc[i, 'Phone'] = phone
     src_df.loc[i, 'Email'] = email
-    print(f'website: {url}\nphone: {phone}\nemail: {email}\n')
+    print(f'website: {url}\nemail: {email}\n')
+    src_df.to_csv('capitaldistrictmoms/hasil/hasil-Aquatics.csv', index=False)
 
 # Menyimpan hasil akhir ke CSV
-src_df.to_csv('hasil_1.csv', index=False)
+# src_df.to_csv('hasil_1.csv', index=False)

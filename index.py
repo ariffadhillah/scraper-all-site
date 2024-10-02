@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
-
+import re
+import os 
 
 # Function to process paragraphs and extract name, url, and address
 def extract_info(paragraphs):
@@ -49,40 +50,35 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://capitaldistrictmoms.com/resources/childrens-activities/', cookies=cookies, headers=headers)
+response = requests.get('https://northernwestchestermoms.com/resources/attractions/', cookies=cookies, headers=headers)
 soup = BeautifulSoup(response.content, 'html.parser')
 
 # Process all reviews dynamically
-all_reviews = soup.find_all('div', {'class': 'et_pb_tab_content'})
+# all_reviews = soup.find_all('div', {'class': 'et_pb_text_inner'})
+all_reviews = soup.find_all('div', class_=['et_pb_tab_content'])
 
-# final_results = []
-# for i, review in enumerate(all_reviews):
-#     paragraphs = review.find_all('p')
-#     result = extract_info(paragraphs)
-#     final_results.extend(result)
-
-# # Display results
-# for result in final_results:
-#     print(f"name = {result['name']}")
-#     print(f"url = {result['url']}")
-#     print(f"addres = {result['address']}")
-#     print()  # Separator
-
-
-
-# import csv
-
-# Contoh final_results dari proses sebelumnya
 final_results = []
 for i, review in enumerate(all_reviews):
     paragraphs = review.find_all('p')
     result = extract_info(paragraphs)
     final_results.extend(result)
 
-# Simpan data ke file CSV
-csv_file = 'scraping_results_childrens-activities.csv'
-csv_columns = ['name', 'url', 'address']
 
+title = "Attractions"
+
+for result in final_results:
+    result['Title'] = title 
+
+safe_title = re.sub(r'[^\w\s-]', '-', title).replace(' ', '-')
+
+# Buat folder jika belum ada
+folder_name = 'Northern Westchester'
+if not os.path.exists(folder_name):
+    os.makedirs(folder_name)
+
+# Simpan data ke file CSV dengan nama berdasarkan title di dalam folder
+csv_file = f'{folder_name}/{safe_title}.csv'  # Gunakan '/' untuk pemisah folder
+csv_columns = ['Title', 'name', 'url', 'address']
 try:
     with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=csv_columns)
@@ -94,9 +90,10 @@ try:
 except IOError:
     print("Terjadi kesalahan saat menyimpan file.")
 
-# Display results
+
 for result in final_results:
+    print(f"Title = {result['Title']}")  
     print(f"name = {result['name']}")
     print(f"url = {result['url']}")
     print(f"address = {result['address']}")
-    print()  # Separator
+    print() 
