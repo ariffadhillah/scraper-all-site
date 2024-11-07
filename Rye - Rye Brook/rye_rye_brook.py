@@ -55,147 +55,73 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://ryeandryebrookmoms.com/camp-guide/',  cookies=cookies, headers=headers)
+response = requests.get('https://ryeandryebrookmoms.com/restaurants/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
+# reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
+# paragraphs_1 = reviews_1.find_all('p')
+# # print(paragraphs)
+
+
+
+# for p in paragraphs_1:
+#     a_tag = p.find('a')
+#     if a_tag:
+#         name = a_tag.text
+#         url = a_tag['href']
+#         # Ambil alamat jika ada
+#         # address = p.get_text(strip=True).replace(name, '').strip()
+#         address = ', '.join(p.stripped_strings)
+
+#         # address = p.get_text(strip=True).replace(name, '').strip()
+#         # address = address if address else 'none'
+#         address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
+#         address = address.lstrip(', ')  # Menghapus koma pertama jika ada
+
+#         results.append({
+#             'name': name,
+#             'url': url,
+#             'address': address,
+#             'Email':''
+#         })
+
+
+
 # benar 1
 
-reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[2]
-paragraphs_1 = reviews_1.find_all('p')
-# print(paragraphs)
+# reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[0]
+# paragraphs_1 = reviews_1.find_all('p')
+# # print(paragraphs)
 
 
 
-for p in paragraphs_1:
-    a_tag = p.find('a')
-    if a_tag:
-        name = a_tag.text
-        url = a_tag['href']
-        # Ambil alamat jika ada
-        # address = p.get_text(strip=True).replace(name, '').strip()
-        address = ', '.join(p.stripped_strings)
+# for p in paragraphs_1:
+#     a_tag = p.find('a')
+#     if a_tag:
+#         name = a_tag.text
+#         url = a_tag['href']
+#         # Ambil alamat jika ada
+#         # address = p.get_text(strip=True).replace(name, '').strip()
+#         address = ', '.join(p.stripped_strings)
 
-        # address = p.get_text(strip=True).replace(name, '').strip()
-        # address = address if address else 'none'
-        address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
-        address = address.lstrip(', ')  # Menghapus koma pertama jika ada
+#         # address = p.get_text(strip=True).replace(name, '').strip()
+#         # address = address if address else 'none'
+#         address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
+#         address = address.lstrip(', ')  # Menghapus koma pertama jika ada
 
-        results.append({
-            'name': name,
-            'url': url,
-            'address': address,
-            'Email':''
-        })
-
-reviews_2 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[3]
-paragraphs_2 = reviews_2.find_all('p')
-# print(paragraphs)
+#         results.append({
+#             'name': name,
+#             'url': url,
+#             'address': address,
+#             'Email':''
+#         })
 
 
 
-for p in paragraphs_2:
-    a_tag = p.find('a')
-    if a_tag:
-        name = a_tag.text
-        url = a_tag['href']
-        # Ambil alamat jika ada
-        # address = p.get_text(strip=True).replace(name, '').strip()
-        address = ', '.join(p.stripped_strings)
-
-        # address = p.get_text(strip=True).replace(name, '').strip()
-        # address = address if address else 'none'
-        address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
-        address = address.lstrip(', ')  # Menghapus koma pertama jika ada
-
-        results.append({
-            'name': name,
-            'url': url,
-            'address': address,
-            'Email':''
-        })
-
-
-reviews_3 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[4]
-
-paragraphs_3 = reviews_3.find_all('p')
-for p in paragraphs_3:
-    strong_tag = p.find('strong')
-    name = strong_tag.text.strip() if strong_tag else None  # Mendapatkan teks dari <strong> jika ada
-    a_tag = p.find('a')
-    
-    if name:  # Pastikan name tersedia
-        url = a_tag['href'] if a_tag else None  # Ambil URL jika <a> ada, jika tidak biarkan None
-
-        # Mengambil teks di antara elemen <strong> dan <a> sebagai alamat
-        # Menghapus bagian 'Click here' dan 'for more information.' jika ada
-        address = p.text.replace(name, '').replace('Click', '').replace('here', '').strip()
-        address = ', '.join(p.stripped_strings)
-        
-        address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
-        address = address.lstrip(', ')  # Menghapus koma pertama jika ada
-        results.append({
-            'name': name,
-            'url': url if url else '',  # Kosongkan URL jika tidak ada
-            'address': address,
-            'Email': ''
-        })
-
-reviews_4 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[5]
-
-paragraphs_4 = reviews_4.find_all('p')
-for p in paragraphs_4:
-    strong_tag = p.find('strong')
-    name = strong_tag.text.strip() if strong_tag else None  # Mendapatkan teks dari <strong> jika ada
-    a_tag = p.find('a')
-    
-    if name:  # Pastikan name tersedia
-        url = a_tag['href'] if a_tag else None  # Ambil URL jika <a> ada, jika tidak biarkan None
-
-        # Mengambil teks di antara elemen <strong> dan <a> sebagai alamat
-        # Menghapus bagian 'Click here' dan 'for more information.' jika ada
-        address = p.text.replace(name, '').replace('Click', '').replace('here', '').strip()
-        address = ', '.join(p.stripped_strings)
-
-        address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
-        address = address.lstrip(', ')  # Menghapus koma pertama jika ada
-        results.append({
-            'name': name,
-            'url': url if url else '',  # Kosongkan URL jika tidak ada
-            'address': address,
-            'Email': ''
-        })
-
-reviews_5 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[6]
-
-paragraphs_5 = reviews_5.find_all('p')
-for p in paragraphs_5:
-    strong_tag = p.find('strong')
-    name = strong_tag.text.strip() if strong_tag else None  # Mendapatkan teks dari <strong> jika ada
-    a_tag = p.find('a')
-    
-    if name:  # Pastikan name tersedia
-        url = a_tag['href'] if a_tag else None  # Ambil URL jika <a> ada, jika tidak biarkan None
-
-        # Mengambil teks di antara elemen <strong> dan <a> sebagai alamat
-        # Menghapus bagian 'Click here' dan 'for more information.' jika ada
-        address = p.text.replace(name, '').replace('Click', '').replace('here', '').strip()
-        address = ', '.join(p.stripped_strings)
-
-        address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
-        address = address.lstrip(', ')  # Menghapus koma pertama jika ada
-        results.append({
-            'name': name,
-            'url': url if url else '',  # Kosongkan URL jika tidak ada
-            'address': address,
-            'Email': ''
-        })
-
-
-
-# # # Temukan semua elemen <p> di dalam div
+# Temukan semua elemen <p> di dalam div
 # reviews_2 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[1]
 # title_2 = reviews_2.find_all('h3')
 
@@ -218,8 +144,218 @@ for p in paragraphs_5:
 #         results.append({
 #             'name': name,
 #             'url': url,
-#             'address': address
+#             'address': address,
+#             'Email':''
 #         })
+
+
+# # Temukan semua elemen <h3> di dalam HTML
+# titles = soup.find_all('h3')
+
+# # Loop setiap elemen <h3>
+
+# for title in titles:
+#     # Ambil teks dari elemen <h3>
+#     name = title.text.strip()
+#     # print(f"Title: {title_text}")
+    
+#     # Ambil semua sibling setelah <h3> hingga <h3> berikutnya
+#     for sibling in title.find_next_siblings():
+#         # Berhenti jika sibling berikutnya adalah <h3> lainnya
+#         if sibling.name == 'h3':
+#             break
+#         # Jika sibling adalah <p>, ambil teksnya
+#         if sibling.name == 'p':
+#             address = sibling.text.strip()
+#             print(name)
+#             print(address)
+    
+
+
+# titles = soup.find_all('h3')
+
+# # Loop untuk setiap elemen <h3> sebagai title
+# for title in titles:
+#     # Ambil teks dari elemen <h3> sebagai name
+#     name = title.text.strip()
+#     addresses = []  # List untuk menampung semua alamat terkait
+
+#     # Loop setiap sibling setelah <h3>
+#     for sibling in title.find_next_siblings():
+#         # Berhenti jika sibling berikutnya adalah <h3> lainnya
+#         if sibling.name == 'h3':
+#             break
+
+#         # Jika sibling adalah <p>, ambil teksnya dan tambahkan ke list addresses
+#         if sibling.name == 'p':
+#             address = sibling.text.strip()
+#             addresses.append(address)
+
+#     # Buat dictionary untuk tiap entry dan tambahkan ke results
+#     if addresses:
+#         save_data = {
+#             'Name': name,
+#             'Address': addresses
+#         }
+#         results.append(save_data)
+#         print('Saving', save_data['Name'], save_data['Address'])
+
+# reviews_2 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[3]
+# paragraphs_2 = reviews_2.find_all('p')
+# # print(paragraphs)
+
+
+
+# for p in paragraphs_2:
+#     a_tag = p.find('a')
+#     if a_tag:
+#         name = a_tag.text
+#         url = a_tag['href']
+#         # Ambil alamat jika ada
+#         # address = p.get_text(strip=True).replace(name, '').strip()
+#         address = ', '.join(p.stripped_strings)
+
+#         # address = p.get_text(strip=True).replace(name, '').strip()
+#         # address = address if address else 'none'
+#         address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
+#         address = address.lstrip(', ')  # Menghapus koma pertama jika ada
+
+#         results.append({
+#             'name': name,
+#             'url': url,
+#             'address': address,
+#             'Email':''
+#         })
+
+
+reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[0]
+
+paragraphs_1 = reviews_1.find_all('p')
+for p in paragraphs_1:
+    strong_tag = p.find('strong')
+    name = strong_tag.text.strip() if strong_tag else None  # Mendapatkan teks dari <strong> jika ada
+    a_tag = p.find('a')
+    
+    if name:  # Pastikan name tersedia
+        url = a_tag['href'] if a_tag else None  # Ambil URL jika <a> ada, jika tidak biarkan None
+
+        # Mengambil teks di antara elemen <strong> dan <a> sebagai alamat
+        # Menghapus bagian 'Click here' dan 'for more information.' jika ada
+        address = p.text.replace(name, '').replace('Click', '').replace('here', '').strip()
+        address = ', '.join(p.stripped_strings)
+        
+        address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
+        address = address.lstrip(', ')  # Menghapus koma pertama jika ada
+        results.append({
+            'name': name,
+            'url': url if url else '',  # Kosongkan URL jika tidak ada
+            'address': address.replace(url,''),
+            'Email': ''
+        })
+
+reviews_2 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[1]
+
+paragraphs_2 = reviews_2.find_all('p')
+for p in paragraphs_2:
+    strong_tag = p.find('strong')
+    name = strong_tag.text.strip() if strong_tag else None  # Mendapatkan teks dari <strong> jika ada
+    a_tag = p.find('a')
+    
+    if name:  # Pastikan name tersedia
+        url = a_tag['href'] if a_tag else None  # Ambil URL jika <a> ada, jika tidak biarkan None
+
+        # Mengambil teks di antara elemen <strong> dan <a> sebagai alamat
+        # Menghapus bagian 'Click here' dan 'for more information.' jika ada
+        address = p.text.replace(name, '').replace('Click', '').replace('here', '').strip()
+        address = ', '.join(p.stripped_strings)
+        
+        address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
+        address = address.lstrip(', ')  # Menghapus koma pertama jika ada
+        results.append({
+            'name': name,
+            'url': url if url else '',  # Kosongkan URL jika tidak ada
+            'address': address.replace(url,''),
+            'Email': ''
+        })
+
+# reviews_4 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[5]
+
+# paragraphs_4 = reviews_4.find_all('p')
+# for p in paragraphs_4:
+#     strong_tag = p.find('strong')
+#     name = strong_tag.text.strip() if strong_tag else None  # Mendapatkan teks dari <strong> jika ada
+#     a_tag = p.find('a')
+    
+#     if name:  # Pastikan name tersedia
+#         url = a_tag['href'] if a_tag else None  # Ambil URL jika <a> ada, jika tidak biarkan None
+
+#         # Mengambil teks di antara elemen <strong> dan <a> sebagai alamat
+#         # Menghapus bagian 'Click here' dan 'for more information.' jika ada
+#         address = p.text.replace(name, '').replace('Click', '').replace('here', '').strip()
+#         address = ', '.join(p.stripped_strings)
+
+#         address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
+#         address = address.lstrip(', ')  # Menghapus koma pertama jika ada
+#         results.append({
+#             'name': name,
+#             'url': url if url else '',  # Kosongkan URL jika tidak ada
+#             'address': address,
+#             'Email': ''
+#         })
+
+# reviews_5 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[6]
+
+# paragraphs_5 = reviews_5.find_all('p')
+# for p in paragraphs_5:
+#     strong_tag = p.find('strong')
+#     name = strong_tag.text.strip() if strong_tag else None  # Mendapatkan teks dari <strong> jika ada
+#     a_tag = p.find('a')
+    
+#     if name:  # Pastikan name tersedia
+#         url = a_tag['href'] if a_tag else None  # Ambil URL jika <a> ada, jika tidak biarkan None
+
+#         # Mengambil teks di antara elemen <strong> dan <a> sebagai alamat
+#         # Menghapus bagian 'Click here' dan 'for more information.' jika ada
+#         address = p.text.replace(name, '').replace('Click', '').replace('here', '').strip()
+#         address = ', '.join(p.stripped_strings)
+
+#         address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
+#         address = address.lstrip(', ')  # Menghapus koma pertama jika ada
+#         results.append({
+#             'name': name,
+#             'url': url if url else '',  # Kosongkan URL jika tidak ada
+#             'address': address,
+#             'Email': ''
+#         })
+
+
+
+# # Temukan semua elemen <p> di dalam div
+reviews_2 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[2]
+title_2 = reviews_2.find_all('h3')
+
+for paragraph_1 in title_2:
+    # Mencari sibling <p> dari <h3>
+    p_sibling = paragraph_1.find_next_sibling('p')
+
+    # Menampilkan judul dan konten jika ditemukan
+    if p_sibling:
+        # Menampilkan teks dari elemen <h3>
+        name = paragraph_1.text.strip()
+        
+        # Menampilkan teks dari <p> dan mengganti <br> dengan koma
+        address = ', '.join(p_sibling.stripped_strings)
+
+        # Mencari URL dalam <p> (jika ada)
+        a_tag = p_sibling.find('a')
+        url = a_tag['href'] if a_tag else None
+
+        results.append({
+            'name': name,
+            'url': url,
+            'address': address,
+            'Email':''
+        })
 
 # reviews_3 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[2]
 # title_3 = reviews_3.find_all('h3')
@@ -291,7 +427,7 @@ for p in paragraphs_5:
 
 
 # # 3
-# reviews_3 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[6]
+# reviews_3 = soup.find_all('div', {'class': 'et_pb_text_inner'})[1]
 
 # paragraphs_3 = reviews_3.find_all('p')
 
@@ -303,8 +439,8 @@ for p in paragraphs_5:
 #         name = strong_tag.text.strip()
 #         url = a_tag['href']
 #         # Mengambil teks di antara elemen <strong> dan <a> sebagai alamat
-#         address = p.text.replace(name, '').replace('Click', '').replace('here', '').strip()
 #         address = address.split('for more information.')[0].strip()
+#         name = p.text.replace(url, '').replace('Click', '').replace('here', '').strip()
 
 #         results.append({
 #             'name': name,
@@ -381,7 +517,7 @@ for p in paragraphs_5:
 #             'address': address
 #         })
 
-# Tampilkan hasil
+# # Tampilkan hasil
 for result in results:
     print(f"name = {result['name']}")
     print(f"url = {result['url']}")
@@ -390,7 +526,7 @@ for result in results:
     print()  # Untuk pemisah antar entri
 
 
-filename = "CAMP GUIDE.csv"
+filename = "Restaurants.csv"
 
 # Menulis data ke dalam file CSV
 with open(filename, mode='w', newline='', encoding='utf-8') as file:
