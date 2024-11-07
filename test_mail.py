@@ -71,7 +71,7 @@ for i, row in src_df.iterrows():
     try:
         # Menggunakan Selenium untuk membuka halaman
         driver.get(url)
-        time.sleep(2)  # Tunggu beberapa detik agar halaman termuat
+        time.sleep(1)  # Tunggu beberapa detik agar halaman termuat
         soup = bs4.BeautifulSoup(driver.page_source, 'html.parser')
         email = get_email(soup)
 
@@ -80,7 +80,7 @@ for i, row in src_df.iterrows():
             additional_page = find_additional_pages(soup, url)
             if additional_page:
                 driver.get(additional_page)
-                time.sleep(2)
+                time.sleep(1)
                 soup = bs4.BeautifulSoup(driver.page_source, 'html.parser')
                 email = get_email(soup)
                 print(f'Checking additional page: {additional_page}')
@@ -94,7 +94,7 @@ for i, row in src_df.iterrows():
     print(f'website: {url}\nemail: {email}\n')
 
     # Simpan hasil setelah semua proses scraping selesai ke dalam folder Central NY dengan nama file berdasarkan title
-    output_filename = 'Nassau County.csv'
+    output_filename = 'hasil---scraoing--email-Rockland County.csv'
     src_df.to_csv(output_filename, index=False)
 
 # Tutup driver setelah selesai

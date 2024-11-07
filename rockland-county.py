@@ -27,14 +27,14 @@ headers = {
 }
 
 
-response = requests.get('https://capitaldistrictmoms.com/resources/aquatics/',  headers=headers)
+response = requests.get('https://therocklandcountymoms.com/resources/bookstores/',  headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 
 
 # Temukan semua elemen <div> dengan class 'et_pb_toggle_content clearfix'
-reviews_1 = soup.find_all('div', {'class': 'et_pb_tab_content'})
+reviews_1 = soup.find_all('div', {'class': 'entry-content'})
 # print(reviews_1)
 # Inisialisasi list untuk menyimpan data
 data = []
@@ -42,55 +42,44 @@ data = []
 # fields = ['Title', 'Name', 'Contact', 'Address', 'Url']
 # filename = ' .csv'
 
+# Iterasi melalui setiap elemen div.et_pb_tab_content
+title = 'Book Stores'
 for review in reviews_1:
-    p_tags = review.find_all('p') 
-    for p_tag in p_tags:
-        title = 'Doctors & Dentists'
-        name = ''
-        phone_number = ''
-        address = ''
-        url = ''
-        a_tag = p_tag.find('a')  
-        if a_tag:
-            name = a_tag.get_text(strip=True) 
-            url = a_tag.get('href')  
-            # print(f"name = {name}")
-            # print(f"url = {url}")
-            
-            # # Mencari elemen yang mengandung teks "Phone" dengan mengabaikan spasi
-            # phone_element = p_tag.find(string=re.compile(r'^\s*Contact:\s*'))
-
-            # if phone_element:
-            #     # Temukan sibling berikutnya setelah elemen "Phone:"
-            #     phone_number = phone_element.find_next(string=True).strip()
-            #     # print(f"Phone: {phone_number}")
-            # else:
-            #     print("Phone element not found in this <p>.")
-
-
-            # Mencari alamat dalam <p> yang sama (asumsi alamat ada di <p> yang sama)
-            # address = p_tag.get_text(strip=True).replace('Phone:', '').strip()
-            address = p_tag.get_text(strip=True).strip()
-            print(address)
-            # print(f"Address: {address}")
-            # print()
-
-        else:
-            print("Tidak ada elemen <a> di dalam <p>")
-
-        # print(name)
+    # Cari semua elemen <a> untuk mengambil nama dan url
+    a_tags = review.find_all('a')
+    
+    for a_tag in a_tags:
+        # Nama bisnis
+        name = a_tag.get_text(strip=True)
+        
+        # URL bisnis
+        url = a_tag['href']
+        
+        # Temukan elemen berikutnya (alamat)
+        address = a_tag.find_next('p').get_text(strip=True)
+        
+        # Temukan elemen berikutnya setelah alamat (nomor kontak)
+        contact = a_tag.find_next('p').find_next('p').get_text(strip=True)
+        
+        # Gabungkan alamat dan kontak
+        add = address + ' ' + contact
+        
+        # Simpan hasilnya dalam dict
         data_save = {
             'Title': title,
-            'Name' : name, 
-            'Address' : address.replace(name, ''),
-            'Url' : url           
+            'Name': name,
+            'Address': add.replace(name, '').strip(),
+            'Url': url
         }
+        
+        # Tambahkan ke dalam list
         data.append(data_save)
-        print(data_save['Name'])
-        print(data_save['Address'])
-        print(data_save['Url'])
-        print()
 
+        # Cetak data sebagai debug
+        print(f"Name: {data_save['Name']}")
+        print(f"Address: {data_save['Address']}")
+        print(f"URL: {data_save['Url']}")
+        print()
 
 # Buat DataFrame dari list data
 df = pd.DataFrame(data)

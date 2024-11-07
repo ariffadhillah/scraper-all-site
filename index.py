@@ -50,7 +50,7 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://northernwestchestermoms.com/resources/attractions/', cookies=cookies, headers=headers)
+response = requests.get('https://therocklandcountymoms.com/resources/doctors/', cookies=cookies, headers=headers)
 soup = BeautifulSoup(response.content, 'html.parser')
 
 # Process all reviews dynamically
@@ -64,7 +64,7 @@ for i, review in enumerate(all_reviews):
     final_results.extend(result)
 
 
-title = "Attractions"
+title = "Doctors & Dentists"
 
 for result in final_results:
     result['Title'] = title 
@@ -72,7 +72,7 @@ for result in final_results:
 safe_title = re.sub(r'[^\w\s-]', '-', title).replace(' ', '-')
 
 # Buat folder jika belum ada
-folder_name = 'Northern Westchester'
+folder_name = 'Rockland County'
 if not os.path.exists(folder_name):
     os.makedirs(folder_name)
 
