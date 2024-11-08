@@ -55,44 +55,78 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://ryeandryebrookmoms.com/shopping-and-products/',  cookies=cookies, headers=headers)
+response = requests.get('https://ryeandryebrookmoms.com/teens/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[0]
+reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
+
+for page in reviews_1:
+
+    paragraphs = page.find_all('p')
+    for p in paragraphs:
+        strong_tag = p.find('strong')
+        title = None
+        
+        # Cek apakah ada <a> di dalam <strong>, jika ada ambil teks dari <a>
+        if strong_tag:
+            a_tag_in_strong = strong_tag.find('a')
+            title = a_tag_in_strong.text.strip() if a_tag_in_strong else strong_tag.text.strip()
+
+        # Lanjutkan ke elemen berikutnya jika tidak ada title
+        if not title:
+            continue
+
+        # Mengumpulkan teks untuk address, kecuali title
+        address_parts = [text.strip() for text in p.stripped_strings if text != title]
+        address = ', '.join(address_parts)
+
+        # Mengambil URL dari elemen <a> di luar <strong>, jika ada
+        a_tag = p.find('a')
+        url = a_tag['href'] if a_tag else None
+
+        # Tambahkan data ke results
+        results.append({
+            'name': title,
+            'address': address,
+            'url': url,
+            'Email' : ''
+        })
+
+# reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[0]
 
 
-paragraphs = reviews_1.find_all('p')
-for p in paragraphs:
-    strong_tag = p.find('strong')
-    title = None
+# paragraphs = reviews_1.find_all('p')
+# for p in paragraphs:
+#     strong_tag = p.find('strong')
+#     title = None
     
-    # Cek apakah ada <a> di dalam <strong>, jika ada ambil teks dari <a>
-    if strong_tag:
-        a_tag_in_strong = strong_tag.find('a')
-        title = a_tag_in_strong.text.strip() if a_tag_in_strong else strong_tag.text.strip()
+#     # Cek apakah ada <a> di dalam <strong>, jika ada ambil teks dari <a>
+#     if strong_tag:
+#         a_tag_in_strong = strong_tag.find('a')
+#         title = a_tag_in_strong.text.strip() if a_tag_in_strong else strong_tag.text.strip()
 
-    # Lanjutkan ke elemen berikutnya jika tidak ada title
-    if not title:
-        continue
+#     # Lanjutkan ke elemen berikutnya jika tidak ada title
+#     if not title:
+#         continue
 
-    # Mengumpulkan teks untuk address, kecuali title
-    address_parts = [text.strip() for text in p.stripped_strings if text != title]
-    address = ', '.join(address_parts)
+#     # Mengumpulkan teks untuk address, kecuali title
+#     address_parts = [text.strip() for text in p.stripped_strings if text != title]
+#     address = ', '.join(address_parts)
 
-    # Mengambil URL dari elemen <a> di luar <strong>, jika ada
-    a_tag = p.find('a')
-    url = a_tag['href'] if a_tag else None
+#     # Mengambil URL dari elemen <a> di luar <strong>, jika ada
+#     a_tag = p.find('a')
+#     url = a_tag['href'] if a_tag else None
 
-    # Tambahkan data ke results
-    results.append({
-        'name': title,
-        'address': address,
-        'url': url,
-        'Email' : ''
-    })
+#     # Tambahkan data ke results
+#     results.append({
+#         'name': title,
+#         'address': address,
+#         'url': url,
+#         'Email' : ''
+#     })
 
 # reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
 
@@ -207,83 +241,83 @@ for p in paragraphs:
 
 
 # Temukan semua elemen <p> di dalam div
-reviews_2 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[1]
-title_2 = reviews_2.find_all('h3')
+# reviews_2 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[1]
+# title_2 = reviews_2.find_all('h3')
 
-for paragraph_1 in title_2:
-    # Mencari sibling <p> dari <h3>
-    p_sibling = paragraph_1.find_next_sibling('p')
+# for paragraph_1 in title_2:
+#     # Mencari sibling <p> dari <h3>
+#     p_sibling = paragraph_1.find_next_sibling('p')
 
-    # Menampilkan judul dan konten jika ditemukan
-    if p_sibling:
-        # Menampilkan teks dari elemen <h3>
-        name = paragraph_1.text.strip()
+#     # Menampilkan judul dan konten jika ditemukan
+#     if p_sibling:
+#         # Menampilkan teks dari elemen <h3>
+#         name = paragraph_1.text.strip()
         
-        # Menampilkan teks dari <p> dan mengganti <br> dengan koma
-        address = ', '.join(p_sibling.stripped_strings)
+#         # Menampilkan teks dari <p> dan mengganti <br> dengan koma
+#         address = ', '.join(p_sibling.stripped_strings)
 
-        # Mencari URL dalam <p> (jika ada)
-        a_tag = p_sibling.find('a')
-        url = a_tag['href'] if a_tag else None
+#         # Mencari URL dalam <p> (jika ada)
+#         a_tag = p_sibling.find('a')
+#         url = a_tag['href'] if a_tag else None
 
-        results.append({
-            'name': name,
-            'url': url,
-            'address': address,
-            'Email':''
-        })
+#         results.append({
+#             'name': name,
+#             'url': url,
+#             'address': address,
+#             'Email':''
+#         })
 
-reviews_3 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[2]
-title_3 = reviews_3.find_all('h3')
+# reviews_3 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[2]
+# title_3 = reviews_3.find_all('h3')
 
-for paragraph_3 in title_3:
-    # Mencari sibling <p> dari <h3>
-    p_sibling_ = paragraph_3.find_next_sibling('p')
+# for paragraph_3 in title_3:
+#     # Mencari sibling <p> dari <h3>
+#     p_sibling_ = paragraph_3.find_next_sibling('p')
 
-    # Menampilkan judul dan konten jika ditemukan
-    if p_sibling_:
-        # Menampilkan teks dari elemen <h3>
-        name_ = paragraph_3.text.strip()
+#     # Menampilkan judul dan konten jika ditemukan
+#     if p_sibling_:
+#         # Menampilkan teks dari elemen <h3>
+#         name_ = paragraph_3.text.strip()
         
-        # Menampilkan teks dari <p> dan mengganti <br> dengan koma
-        address_ = ', '.join(p_sibling_.stripped_strings)
+#         # Menampilkan teks dari <p> dan mengganti <br> dengan koma
+#         address_ = ', '.join(p_sibling_.stripped_strings)
 
-        # Mencari URL dalam <p> (jika ada)
-        a_tag_ = p_sibling_.find('a')
-        url_ = a_tag_['href'] if a_tag_ else None
+#         # Mencari URL dalam <p> (jika ada)
+#         a_tag_ = p_sibling_.find('a')
+#         url_ = a_tag_['href'] if a_tag_ else None
 
-        results.append({
-            'name': name_,
-            'url': url_,
-            'address': address_,
-            'Email':''
-        })
+#         results.append({
+#             'name': name_,
+#             'url': url_,
+#             'address': address_,
+#             'Email':''
+#         })
 
-reviews_4 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[3]
-title_4 = reviews_4.find_all('h3')
+# reviews_4 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[3]
+# title_4 = reviews_4.find_all('h3')
 
-for paragraph_4 in title_4:
-    # Mencari sibling <p> dari <h3>
-    p_sibling_4 = paragraph_4.find_next_sibling('p')
+# for paragraph_4 in title_4:
+#     # Mencari sibling <p> dari <h3>
+#     p_sibling_4 = paragraph_4.find_next_sibling('p')
 
-    # Menampilkan judul dan konten jika ditemukan
-    if p_sibling_4:
-        # Menampilkan teks dari elemen <h3>
-        name_4 = paragraph_4.text.strip()
+#     # Menampilkan judul dan konten jika ditemukan
+#     if p_sibling_4:
+#         # Menampilkan teks dari elemen <h3>
+#         name_4 = paragraph_4.text.strip()
         
-        # Menampilkan teks dari <p> dan mengganti <br> dengan koma
-        address_4 = ', '.join(p_sibling_4.stripped_strings)
+#         # Menampilkan teks dari <p> dan mengganti <br> dengan koma
+#         address_4 = ', '.join(p_sibling_4.stripped_strings)
 
-        # Mencari URL dalam <p> (jika ada)
-        a_tag_4 = p_sibling_4.find('a')
-        url_4 = a_tag_['href'] if a_tag_4 else None
+#         # Mencari URL dalam <p> (jika ada)
+#         a_tag_4 = p_sibling_4.find('a')
+#         url_4 = a_tag_['href'] if a_tag_4 else None
 
-        results.append({
-            'name': name_4,
-            'url': url_4,
-            'address': address_4,
-            'Email':''
-        })
+#         results.append({
+#             'name': name_4,
+#             'url': url_4,
+#             'address': address_4,
+#             'Email':''
+#         })
 
 
 # # Temukan semua elemen <h3> di dalam HTML
@@ -663,7 +697,7 @@ for result in results:
     print()  # Untuk pemisah antar entri
 
 
-filename = "Shopping and products.csv"
+filename = "TEENS.csv"
 
 # Menulis data ke dalam file CSV
 with open(filename, mode='w', newline='', encoding='utf-8') as file:
