@@ -55,45 +55,45 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://ryeandryebrookmoms.com/teens/',  cookies=cookies, headers=headers)
+response = requests.get('https://ryeandryebrookmoms.com/fitness/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
+# reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
 
-for page in reviews_1:
+# for page in reviews_1:
 
-    paragraphs = page.find_all('p')
-    for p in paragraphs:
-        strong_tag = p.find('strong')
-        title = None
+#     paragraphs = page.find_all('p')
+#     for p in paragraphs:
+#         strong_tag = p.find('strong')
+#         title = None
         
-        # Cek apakah ada <a> di dalam <strong>, jika ada ambil teks dari <a>
-        if strong_tag:
-            a_tag_in_strong = strong_tag.find('a')
-            title = a_tag_in_strong.text.strip() if a_tag_in_strong else strong_tag.text.strip()
+#         # Cek apakah ada <a> di dalam <strong>, jika ada ambil teks dari <a>
+#         if strong_tag:
+#             a_tag_in_strong = strong_tag.find('a')
+#             title = a_tag_in_strong.text.strip() if a_tag_in_strong else strong_tag.text.strip()
 
-        # Lanjutkan ke elemen berikutnya jika tidak ada title
-        if not title:
-            continue
+#         # Lanjutkan ke elemen berikutnya jika tidak ada title
+#         if not title:
+#             continue
 
-        # Mengumpulkan teks untuk address, kecuali title
-        address_parts = [text.strip() for text in p.stripped_strings if text != title]
-        address = ', '.join(address_parts)
+#         # Mengumpulkan teks untuk address, kecuali title
+#         address_parts = [text.strip() for text in p.stripped_strings if text != title]
+#         address = ', '.join(address_parts)
 
-        # Mengambil URL dari elemen <a> di luar <strong>, jika ada
-        a_tag = p.find('a')
-        url = a_tag['href'] if a_tag else None
+#         # Mengambil URL dari elemen <a> di luar <strong>, jika ada
+#         a_tag = p.find('a')
+#         url = a_tag['href'] if a_tag else None
 
-        # Tambahkan data ke results
-        results.append({
-            'name': title,
-            'address': address,
-            'url': url,
-            'Email' : ''
-        })
+#         # Tambahkan data ke results
+#         results.append({
+#             'name': title,
+#             'address': address,
+#             'url': url,
+#             'Email' : ''
+#         })
 
 # reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[0]
 
@@ -127,6 +127,33 @@ for page in reviews_1:
 #         'url': url,
 #         'Email' : ''
 #     })
+
+reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
+
+for page in reviews_1:
+    # Temukan semua elemen <h3> di dalam HTML
+    # Loop untuk setiap elemen <h3>
+    headings = page.find_all('h4')
+    for h in headings:
+        # Ambil title dari <strong> dalam <h4>
+        strong_tag = h.find('strong')
+        title = strong_tag.get_text(strip=True) if strong_tag else None
+
+        # Ambil URL dari <a> dalam <h4>
+        a_tag = h.find('a')
+        url = a_tag['href'] if a_tag else None
+
+        # Ambil address dari semua teks lain dalam <h4> (selain title dan URL)
+        address_parts = [text.strip() for text in h.stripped_strings if text != title and (not a_tag or text != a_tag.get_text(strip=True))]
+        address = ', '.join(address_parts)
+
+        # Tambahkan hasil ke list
+        results.append({
+            'name': title,
+            'url': url,
+            'address': address.strip(),
+            'Email':''
+        })
 
 # reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
 
@@ -697,7 +724,7 @@ for result in results:
     print()  # Untuk pemisah antar entri
 
 
-filename = "TEENS.csv"
+filename = "fitness.csv"
 
 # Menulis data ke dalam file CSV
 with open(filename, mode='w', newline='', encoding='utf-8') as file:
