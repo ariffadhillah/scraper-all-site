@@ -55,7 +55,7 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://sayvillepatchoguemoms.com/resources/mom-life',  cookies=cookies, headers=headers)
+response = requests.get('https://sayvillepatchoguemoms.com/resources/Schools/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -752,7 +752,7 @@ for result in results:
     print()  # Untuk pemisah antar entri
 
 
-filename = "Mom Life.csv"
+filename = "Schools.csv"
 
 # Menulis data ke dalam file CSV
 with open(filename, mode='w', newline='', encoding='utf-8') as file:
