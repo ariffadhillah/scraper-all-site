@@ -55,47 +55,48 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://soundshoremoms.com/resources/learning-support-tutoring-services/',  cookies=cookies, headers=headers)
+response = requests.get('https://soundshoremoms.com/pumpkin-patches-in-and-around-westchester-ny/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Learning Support Tutoring Services'
+# title_name = 'Learning Support Tutoring Services'
 
-divs = soup.find_all('div', class_='et_pb_text_inner')
-for div in divs:
-    # Ambil title dari <a> dalam <div>
-    a_tag = div.find('a')
-    title = a_tag.get_text(strip=True) if a_tag else None
-    url = a_tag['href'] if a_tag else None
 
-    # Ambil informasi lainnya dari <p> dalam <div>
-    paragraphs = div.find_all('p')
-    address = []
-    phone = None
+# divs = soup.find_all('div', class_='et_pb_text_inner')
+# for div in divs:
+#     # Ambil title dari <a> dalam <div>
+#     a_tag = div.find('a')
+#     title = a_tag.get_text(strip=True) if a_tag else None
+#     url = a_tag['href'] if a_tag else None
 
-    for p in paragraphs:
-        text = p.get_text(strip=True)
+#     # Ambil informasi lainnya dari <p> dalam <div>
+#     paragraphs = div.find_all('p')
+#     address = []
+#     phone = None
+
+#     for p in paragraphs:
+#         text = p.get_text(strip=True)
         
-        # Deteksi phone number
-        if '(' in text and ')' in text and '-' in text:
-            phone = text
-        # Anggap teks lain adalah bagian dari alamat
-        elif text:
-            address.append(text)
+#         # Deteksi phone number
+#         if '(' in text and ')' in text and '-' in text:
+#             phone = text
+#         # Anggap teks lain adalah bagian dari alamat
+#         elif text:
+#             address.append(text)
 
-    # Gabungkan address menjadi satu string dengan koma sebagai pemisah
-    address = ', '.join(address) if address else None
+#     # Gabungkan address menjadi satu string dengan koma sebagai pemisah
+#     address = ', '.join(address) if address else None
 
-    results.append({
-        'Title' : title_name,
-        'Name': title,
-        'Address': address,
-        'Contact': phone,
-        'Email':'',
-        'url': url
-    })
+#     results.append({
+#         'Title' : title_name,
+#         'Name': title,
+#         'Address': address,
+#         'Contact': phone,
+#         'Email':'',
+#         'url': url
+#     })
 
 
 # Print hasilnya
@@ -179,9 +180,41 @@ for div in divs:
     #             'Email':''
     #         })
 
+title_name = 'Guides - Scenic Hiking Trails In and Around Westchester, NY'
+
+reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
+# print(reviews_1)
+for page in reviews_1: 
+
+    paragraphs = page.find_all('p')
+    for p in paragraphs:
+        # Ambil title dari <strong> dalam <p>
+        strong_tag = p.find('strong')
+        title = strong_tag.get_text(strip=True) if strong_tag else None
+
+        # Cari lokasi dengan elemen <em> yang berisi teks 'Location:'
+        location_tag = p.find('em', string='Location:')
+        location = location_tag.next_sibling.strip() if location_tag and location_tag.next_sibling else None
+
+        # Cari deskripsi dengan elemen <em> yang berisi teks 'Description:'
+        # description_tag = p.find('em', text='Description:')
+        # description = description_tag.next_sibling.strip() if description_tag and description_tag.next_sibling else None
+
+        # Ambil URL dari elemen <a> jika ada
+        a_tag = p.find('a')
+        url = a_tag['href'] if a_tag else None
+
+        results.append({
+            'Title' : title_name,
+            'Name': title,
+            'Address': location,
+            'Contact': '',
+            'Email':'',
+            'url': url
+        })
 
 
-# reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
+
 
 # for page in reviews_1:
 
