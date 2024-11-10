@@ -55,13 +55,13 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://soundshoremoms.com/resources/real-estate-2/',  cookies=cookies, headers=headers)
+response = requests.get('https://soundshoremoms.com/resources/sports/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Real Estate'
+title_name = 'Sports'
 
 divs = soup.find_all('div', class_='et_pb_text_inner')
 for div in divs:
