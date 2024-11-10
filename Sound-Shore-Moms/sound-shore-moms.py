@@ -55,7 +55,7 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://soundshoremoms.com/pumpkin-patches-in-and-around-westchester-ny/',  cookies=cookies, headers=headers)
+response = requests.get('https://soundshoremoms.com/fall-family-fun/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -394,15 +394,13 @@ results = []
 
 
 
-title_name = 'Guides - '
+title_name = 'Guides - Fall Family Fun'
 
 reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
 
 for page_ in reviews_1:
     paragraphs_1 = page_.find_all('p')
     # print(paragraphs_1)
-
-
 
     for p in paragraphs_1:
         a_tag = p.find('a')
