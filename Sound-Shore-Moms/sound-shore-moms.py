@@ -180,38 +180,81 @@ results = []
     #             'Email':''
     #         })
 
-title_name = 'Guides - Scenic Hiking Trails In and Around Westchester, NY'
 
-reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
-# print(reviews_1)
-for page in reviews_1: 
 
-    paragraphs = page.find_all('p')
-    for p in paragraphs:
-        # Ambil title dari <strong> dalam <p>
-        strong_tag = p.find('strong')
-        title = strong_tag.get_text(strip=True) if strong_tag else None
+# reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
+# # print(reviews_1)
+# for page in reviews_1: 
 
-        # Cari lokasi dengan elemen <em> yang berisi teks 'Location:'
-        location_tag = p.find('em', string='Location:')
-        location = location_tag.next_sibling.strip() if location_tag and location_tag.next_sibling else None
+#     paragraphs = page.find_all('p')
 
-        # Cari deskripsi dengan elemen <em> yang berisi teks 'Description:'
-        # description_tag = p.find('em', text='Description:')
-        # description = description_tag.next_sibling.strip() if description_tag and description_tag.next_sibling else None
+# for p in paragraphs:
+#     # Ambil title dari <strong> atau <a> dalam <p>
+#     strong_tag = p.find('strong')
+#     a_tag = p.find('a')
+#     title = strong_tag.get_text(strip=True) if strong_tag else (a_tag.get_text(strip=True) if a_tag else None)
+    
+#     # Ambil alamat (address) dengan menggunakan <br> setelah title, jika ada strong_tag
+#     address = ""
+#     if strong_tag:
+#         for sibling in strong_tag.next_siblings:
+#             if sibling.name == 'br':
+#                 # Setelah <br>, ambil teks berikutnya sebagai address
+#                 address = sibling.next.strip() if sibling.next else ""
+#                 break
 
-        # Ambil URL dari elemen <a> jika ada
-        a_tag = p.find('a')
-        url = a_tag['href'] if a_tag else None
+#     # Ambil deskripsi dari teks setelah alamat
+#     description = ""
+#     if address and ',' in address:
+#         address_parts = address.split(',')
+#         address = address_parts[0].strip()  # Bagian pertama sebagai address
+#         description = ', '.join(address_parts[1:]).strip()  # Sisanya sebagai deskripsi
 
-        results.append({
-            'Title' : title_name,
-            'Name': title,
-            'Address': location,
-            'Contact': '',
-            'Email':'',
-            'url': url
-        })
+#     # Ambil URL dari elemen <a> jika ada
+#     url = a_tag['href'] if a_tag else None
+
+#     # Simpan hasil ke dalam dictionary
+#     results.append({
+#         'title': title,
+#         'address': address,
+#         'description': description,
+#         'url': url
+#     })
+
+
+
+# title_name = 'Guides - Pumpkin Patches in Westchester, NY'
+
+# reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
+# # print(reviews_1)
+# for page in reviews_1: 
+
+#     paragraphs = page.find_all('p')
+#     for p in paragraphs:
+#         # Ambil title dari <strong> dalam <p>
+#         strong_tag = p.find('strong')
+#         title = strong_tag.get_text(strip=True) if strong_tag else None
+
+#         # Cari lokasi dengan elemen <em> yang berisi teks 'Location:'
+#         location_tag = p.find('em', string='Location:')
+#         location = location_tag.next_sibling.strip() if location_tag and location_tag.next_sibling else None
+
+#         # Cari deskripsi dengan elemen <em> yang berisi teks 'Description:'
+#         # description_tag = p.find('em', text='Description:')
+#         # description = description_tag.next_sibling.strip() if description_tag and description_tag.next_sibling else None
+
+#         # Ambil URL dari elemen <a> jika ada
+#         a_tag = p.find('a')
+#         url = a_tag['href'] if a_tag else None
+
+#         results.append({
+#             'Title' : title_name,
+#             'Name': title,
+#             'Address': location,
+#             'Contact': '',
+#             'Email':'',
+#             'url': url
+#         })
 
 
 
@@ -248,38 +291,31 @@ for page in reviews_1:
 #             'Email' : ''
 #         })
 
-# reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})[0]
+
+# for page in reviews_1:
+
+#     for p in paragraphs:
+#         if a_tag:
+#             name = a_tag.text
+#             url = a_tag['href']
+#             # Ambil alamat jika ada
+#             # address = p.get_text(strip=True).replace(name, '').strip()
+#             address = ', '.join(p.stripped_strings)
+
+#             # address = p.get_text(strip=True).replace(name, '').strip()
+#             # address = address if address else 'none'
+#             address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
+#             address = address.lstrip(', ')  # Menghapus koma pertama jika ada
 
 
-# paragraphs = reviews_1.find_all('p')
-# for p in paragraphs:
-#     strong_tag = p.find('strong')
-#     title = None
-    
-#     # Cek apakah ada <a> di dalam <strong>, jika ada ambil teks dari <a>
-#     if strong_tag:
-#         a_tag_in_strong = strong_tag.find('a')
-#         title = a_tag_in_strong.text.strip() if a_tag_in_strong else strong_tag.text.strip()
-
-#     # Lanjutkan ke elemen berikutnya jika tidak ada title
-#     if not title:
-#         continue
-
-#     # Mengumpulkan teks untuk address, kecuali title
-#     address_parts = [text.strip() for text in p.stripped_strings if text != title]
-#     address = ', '.join(address_parts)
-
-#     # Mengambil URL dari elemen <a> di luar <strong>, jika ada
-#     a_tag = p.find('a')
-#     url = a_tag['href'] if a_tag else None
-
-#     # Tambahkan data ke results
-#     results.append({
-#         'name': title,
-#         'address': address,
-#         'url': url,
-#         'Email' : ''
-#     })
+#         results.append({
+#             'Title' : title_name,
+#             'Name': name,
+#             'Address': address,
+#             'Contact': '',
+#             'Email':'',
+#             'url': url
+#         })
 
 # reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
 
@@ -358,34 +394,38 @@ for page in reviews_1:
 
 
 
+title_name = 'Guides - '
+
+reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
+
+for page_ in reviews_1:
+    paragraphs_1 = page_.find_all('p')
+    # print(paragraphs_1)
 
 
-# reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
-# paragraphs_1 = reviews_1.find_all('p')
-# # print(paragraphs)
 
+    for p in paragraphs_1:
+        a_tag = p.find('a')
+        if a_tag:
+            name = a_tag.text
+            url = a_tag['href']
+            # Ambil alamat jika ada
+            # address = p.get_text(strip=True).replace(name, '').strip()
+            address = ', '.join(p.stripped_strings)
 
+            # address = p.get_text(strip=True).replace(name, '').strip()
+            # address = address if address else 'none'
+            address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
+            address = address.lstrip(', ')  # Menghapus koma pertama jika ada
 
-# for p in paragraphs_1:
-#     a_tag = p.find('a')
-#     if a_tag:
-#         name = a_tag.text
-#         url = a_tag['href']
-#         # Ambil alamat jika ada
-#         # address = p.get_text(strip=True).replace(name, '').strip()
-#         address = ', '.join(p.stripped_strings)
-
-#         # address = p.get_text(strip=True).replace(name, '').strip()
-#         # address = address if address else 'none'
-#         address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
-#         address = address.lstrip(', ')  # Menghapus koma pertama jika ada
-
-#         results.append({
-#             'name': name,
-#             'url': url,
-#             'address': address,
-#             'Email':''
-#         })
+            results.append({
+                'Title' : title_name,
+                'Name': name,
+                'Address': address.replace('Click for details!','').replace('Click for reservations!',''),
+                'Contact': '',
+                'Email':'',
+                'url': url
+            })
 
 
 
