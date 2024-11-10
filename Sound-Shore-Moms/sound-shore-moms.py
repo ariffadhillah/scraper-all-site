@@ -55,7 +55,7 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://soundshoremoms.com/free-family-fun-events-in-westchester-ny/',  cookies=cookies, headers=headers)
+response = requests.get('https://soundshoremoms.com/westchester-playgrounds-parks-trails/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -394,7 +394,7 @@ results = []
 
 
 
-title_name = 'Guides - Free Family Fun Events in Westchester, NY'
+title_name = 'Guides - Westchester Beaches, Playgrounds, Parks & Trails'
 
 reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
 
