@@ -395,13 +395,13 @@ headers = {
 import re
 
 
-response = requests.get('https://hamptonsmoms.com/resources/teen-things-to-do/',  cookies=cookies, headers=headers)
+response = requests.get('https://hamptonsmoms.com/resources/ways-to-get-around/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Teen-Things To Do'
+title_name = 'Ways to Get Around'
 
 page_section = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
 
