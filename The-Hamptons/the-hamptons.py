@@ -395,13 +395,13 @@ headers = {
 import re
 
 
-response = requests.get('https://hamptonsmoms.com/resources/fitness/',  cookies=cookies, headers=headers)
+response = requests.get('https://hamptonsmoms.com/resources/farm-stands/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Fitness'
+title_name = 'Farm Stands'
 
 page_section = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
 
@@ -416,8 +416,10 @@ for page_box_text in page_section:
         title = a_tag.text.strip() if a_tag else None
         url = a_tag['href'] if a_tag and a_tag.has_attr('href') else None
 
-
-        address = box.find('p').text.strip()
+        try:
+            address = box.find('p').text.strip()
+        except:
+            address =''
         # if address_tag:
         #     # Ambil teks setelah "Address:" menggunakan regular expression
         #     address_text = address_tag.get_text(separator=" ").strip()
