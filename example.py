@@ -15,9 +15,9 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
 }
 
-response = requests.get('https://turo.com/us/en/search?age=19&country=US&defaultZoomLevel=11&deliveryLocationType=city&endDate=10%2F28%2F2024&endTime=10%3A00&isMapSearch=false&itemsPerPage=200&latitude=33.7174708&location=Orange%20County%2C%20California%2C%20USA&locationType=CITY&longitude=-117.8311428&maximumPrice=&minimumPrice=100&pickupType=ALL&placeId=ChIJz_fVVFyS3IARB9bwj2HDpt4&region=CA&sortType=RELEVANCE&startDate=10%2F25%2F2024&startTime=10%3A00&useDefaultMaximumDistance=true', headers=headers)
+response = requests.get('https://huntingtonsmithtownmoms.com/resources/family-dining/', headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
-
-search = soup.find('div', class_='virtuoso-item-list')
-print(search)
+print(soup)
+# search = soup.find('div', class_='virtuoso-item-list')
+# print(search)
