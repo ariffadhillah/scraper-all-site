@@ -395,13 +395,13 @@ headers = {
 import re
 
 
-response = requests.get('https://hamptonsmoms.com/resources/childrens-playground/',  cookies=cookies, headers=headers)
+response = requests.get('https://hamptonsmoms.com/resources/childrens-party-sites/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Childrens Playground'
+title_name = 'Childrens Party Sites'
 
 page_section = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
 
@@ -414,7 +414,7 @@ for page_box_text in page_section:
         # print(h4_tag.text)
         a_tag = h4_tag.find('a') if h4_tag else None
         title = a_tag.text.strip() if a_tag else None
-        url = a_tag['href'] if a_tag else None
+        url = a_tag['href'] if a_tag and a_tag.has_attr('href') else None
 
 
         address = box.find('p').text.strip()
