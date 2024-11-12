@@ -395,13 +395,13 @@ headers = {
 import re
 
 
-response = requests.get('https://hamptonsmoms.com/resources/apple-and-pumpkin-picking/',  cookies=cookies, headers=headers)
+response = requests.get('https://hamptonsmoms.com/resources/best-hamptons-breweries/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Apple and Pumpkin Picking'
+title_name = 'Best Hamptons Breweries'
 
 page_section = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
 
