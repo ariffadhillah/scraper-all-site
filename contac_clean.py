@@ -2,7 +2,7 @@ import pandas as pd
 import re
 
 # Memuat file CSV
-df = pd.read_csv('Sayville Patchogue Area.csv')
+df = pd.read_csv('Sound Shore Moms-----.csv')
 
 # Fungsi untuk mengekstrak nomor telepon
 def extract_phone(address):
@@ -18,7 +18,7 @@ df['Phone Number'] = df['Address'].apply(extract_phone)
 df['Address'] = df['Address'].apply(lambda x: re.sub(r'\(\d{3}\) \d{3}-\d{4}', '', x).strip() if isinstance(x, str) else x)
 
 # Simpan hasil ke file CSV yang diperbarui
-df.to_csv('_______________hasil-Sayville Patchogue Area.csv', index=False)
+df.to_csv('Sound Shore Moms-------------------.csv', index=False)
 
 print("Nomor telepon berhasil diekstrak dan disimpan!")
 
