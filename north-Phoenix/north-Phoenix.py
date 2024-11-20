@@ -29,7 +29,7 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://northphoenixmomsnetwork.com/resources/childrens-activities/',  cookies=cookies, headers=headers)
+response = requests.get('https://northphoenixmomsnetwork.com/resources/schools-3/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -368,7 +368,7 @@ results = []
 
 
 
-title_name = 'Childrens Activities'
+title_name = 'Schools'
 
 reviews_1 = soup.find_all('div', {'class': 'entry-content'})
 
