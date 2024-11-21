@@ -29,13 +29,13 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://littlerockmomsnetwork.com/resources/child-care/',  cookies=cookies, headers=headers)
+response = requests.get('https://littlerockmomsnetwork.com/resources/dentists/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Childcare'
+title_name = 'Dentists'
 
 reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
 
