@@ -381,14 +381,13 @@ for page_ in reviews_1:
         if a_tag:
             name = a_tag.text
             url = a_tag['href']
-            # Ambil alamat jika ada
+            
             # address = p.get_text(strip=True).replace(name, '').strip()
             address = ', '.join(p.stripped_strings)
-
             # address = p.get_text(strip=True).replace(name, '').strip()
             # address = address if address else 'none'
-            address = address.replace(name, '').strip()  # Menghapus nama dan spasi tambahan
-            address = address.lstrip(', ')  # Menghapus koma pertama jika ada
+            address = address.replace(name, '').strip()
+            address = address.lstrip(', ') 
 
             results.append({
                 'Title' : title_name,
@@ -398,6 +397,26 @@ for page_ in reviews_1:
                 'Email':'',
                 'url': url
             })
+
+
+for result in results:
+    print(f"Title = {result['Title']}")
+    print(f"Name = {result['Name']}")
+    print(f"Address = {result['Address']}")
+    print(f"Contact = {result['Contact']}")
+    print(f"Email = {result['Email']}")
+    print(f"url = {result['url']}")
+    print() 
+               
+filename = f"{title_name}.csv"
+
+with open(filename, mode='w', newline='', encoding='utf-8') as file:
+    writer = csv.DictWriter(file, fieldnames=['Title','Name','Address', 'Contact', 'Email','url'])
+    writer.writeheader()  
+    writer.writerows(results)  
+
+print(f"Data telah disimpan ke dalam file '{filename}'")
+
 
 
 
@@ -880,22 +899,20 @@ for page_ in reviews_1:
 #             'address': address
 #         })
 
-# # Tampilkan hasil
-for result in results:
-    print(f"Title = {result['Title']}")
-    print(f"Name = {result['Name']}")
-    print(f"Address = {result['Address']}")
-    print(f"Contact = {result['Contact']}")
-    print(f"Email = {result['Email']}")
-    print(f"url = {result['url']}")
-    print()  # Untuk pemisah antar entri
+# for result in results:
+#     print(f"Title = {result['Title']}")
+#     print(f"Name = {result['Name']}")
+#     print(f"Address = {result['Address']}")
+#     print(f"Contact = {result['Contact']}")
+#     print(f"Email = {result['Email']}")
+#     print(f"url = {result['url']}")
+#     print() 
                
-filename = f"{title_name}.csv"
+# filename = f"{title_name}.csv"
 
-# Menulis data ke dalam file CSV
-with open(filename, mode='w', newline='', encoding='utf-8') as file:
-    writer = csv.DictWriter(file, fieldnames=['Title','Name','Address', 'Contact', 'Email','url'])
-    writer.writeheader()  # Menulis header
-    writer.writerows(results)  # Menulis data
+# with open(filename, mode='w', newline='', encoding='utf-8') as file:
+#     writer = csv.DictWriter(file, fieldnames=['Title','Name','Address', 'Contact', 'Email','url'])
+#     writer.writeheader()  
+#     writer.writerows(results)  
 
-print(f"Data telah disimpan ke dalam file '{filename}'")
+# print(f"Data telah disimpan ke dalam file '{filename}'")
