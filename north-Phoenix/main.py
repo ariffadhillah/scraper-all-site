@@ -30,70 +30,36 @@ def get_email(soup):
 
     return ''
 
-def find_additional_pages(base_url):
-    paths = ['contact', 'contacts','about', 'contact-us',]
-    additional_urls = [f"{base_url.rstrip('/')}/{path}" for path in paths]  # Tambahkan path ke URL utama
-    return additional_urls
+# Fungsi untuk mencari tautan 'contact', 'about', dll.
+def find_additional_pages(soup, base_url):
+    keywords = ['Contact','Contact Us', 'About Us','Contact us', 'About us', 'about-us', 'about', 'contacts', ]
+    links = soup.find_all('a', href=True)
 
-    # for link in links:
-    #     href = link['href'].lower()
-    #     if any(keyword in href for keyword in keywords):
-    #         return href if href.startswith('http') else base_url + href
-    # return None
+    for link in links:
+        href = link['href'].lower()
+        if any(keyword in href for keyword in keywords):
+            return href if href.startswith('http') else base_url + href
+    return None
+
 
 # Konfigurasi opsi Chrome untuk mode headless
 chrome_options = Options()
-chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--headless')
 # chrome_options.add_argument('--no-sandbox')
 # chrome_options.add_argument('--disable-dev-shm-usage')
 # chrome_options.add_argument('--disable-gpu')
+
+chrome_options.add_argument("--disable-infobars")
+chrome_options.add_argument("start-maximized")
+chrome_options.add_argument("--disable-extensions")
+
+
 
 # Inisialisasi WebDriver dengan opsi yang dikonfigurasi
 driver = webdriver.Chrome(options=chrome_options)
 
 # Ubah nama kolom sesuai kebutuhan
 src_df.columns = ['Title', 'Name', 'Address', 'Contact', 'Url', 'Email']
-
-# # Loop untuk memproses setiap baris dalam DataFrame
-# for i, row in src_df.iterrows():
-#     url = format_url(row['Url'])  # Panggil fungsi format_url untuk setiap baris
-#     if not url:  # Lewatkan baris jika URL kosong
-#         print(f'Skipping row {i}, empty URL')
-#         continue
-
-#     email = ''
-#     try:
-#         # Menggunakan Selenium untuk membuka halaman
-#         driver.get(url)
-#         time.sleep(2)  # Tunggu beberapa detik agar halaman termuat
-#         soup = bs4.BeautifulSoup(driver.page_source, 'html.parser')
-#         email = get_email(soup)
-
-#         # Jika email tidak ditemukan di halaman utama, coba di halaman tambahan
-#         if not email:
-#             additional_page = find_additional_pages(soup, url)
-#             if additional_page:
-#                 driver.get(additional_page)
-#                 time.sleep(2)
-#                 soup = bs4.BeautifulSoup(driver.page_source, 'html.parser')
-#                 email = get_email(soup)
-#                 print(f'Checking additional page: {additional_page}')
-
-#     except Exception as e:
-#         print(f'Unsuccessful: {e} on {url}')
-#         continue
-
-#     # Menyimpan hasil ke DataFrame
-#     src_df.loc[i, 'Email'] = email
-#     print(f'website: {url}\nemail: {email}\n')
-
-#     # Simpan hasil setelah semua proses scraping selesai ke dalam folder Central NY dengan nama file berdasarkan title
-#     output_filename = 'The Hamptons.csv'
-#     src_df.to_csv(output_filename, index=False)
-
-# # Tutup driver setelah selesai
-# driver.quit()
-
 
 # Loop untuk memproses setiap baris dalam DataFrame
 for i, row in src_df.iterrows():
@@ -112,19 +78,13 @@ for i, row in src_df.iterrows():
 
         # Jika email tidak ditemukan di halaman utama, coba di halaman tambahan
         if not email:
-            additional_urls = find_additional_pages(url)
-            for additional_url in additional_urls:
-                try:
-                    driver.get(additional_url)
-                    time.sleep(2)
-                    soup = bs4.BeautifulSoup(driver.page_source, 'html.parser')
-                    email = get_email(soup)
-                    print(f'Checking additional page: {additional_url}')
-                    if email:  # Berhenti jika email ditemukan
-                        break
-                except Exception as inner_e:
-                    print(f"Error accessing {additional_url}: {inner_e}")
-                    continue
+            additional_page = find_additional_pages(soup, url)
+            if additional_page:
+                driver.get(additional_page)
+                time.sleep(2)
+                soup = bs4.BeautifulSoup(driver.page_source, 'html.parser')
+                email = get_email(soup)
+                print(f'Checking additional page: {additional_page}')
 
     except Exception as e:
         print(f'Unsuccessful: {e} on {url}')
@@ -135,8 +95,55 @@ for i, row in src_df.iterrows():
     print(f'website: {url}\nemail: {email}\n')
 
     # Simpan hasil setelah semua proses scraping selesai ke dalam folder Central NY dengan nama file berdasarkan title
-    output_filename = 'hasil-----.csv'
+    output_filename = 'hasil-scraping---1.csv'
     src_df.to_csv(output_filename, index=False)
 
 # Tutup driver setelah selesai
 driver.quit()
+
+
+# # Loop untuk memproses setiap baris dalam DataFrame
+# for i, row in src_df.iterrows():
+#     url = format_url(row['Url'])  # Panggil fungsi format_url untuk setiap baris
+#     if not url:  # Lewatkan baris jika URL kosong
+#         print(f'Skipping row {i}, empty URL')
+#         continue
+
+#     email = ''
+#     try:
+#         # Menggunakan Selenium untuk membuka halaman
+#         driver.get(url)
+#         time.sleep(2)  # Tunggu beberapa detik agar halaman termuat
+#         soup = bs4.BeautifulSoup(driver.page_source, 'html.parser')
+#         email = get_email(soup)
+
+#         # Jika email tidak ditemukan di halaman utama, coba di halaman tambahan
+#         if not email:
+#             additional_urls = find_additional_pages(url)
+#             for additional_url in additional_urls:
+#                 try:
+#                     driver.get(additional_url)
+#                     time.sleep(2)
+#                     soup = bs4.BeautifulSoup(driver.page_source, 'html.parser')
+#                     email = get_email(soup)
+#                     print(f'Checking additional page: {additional_url}')
+#                     if email:  # Berhenti jika email ditemukan
+#                         break
+#                 except Exception as inner_e:
+#                     print(f"Error accessing {additional_url}: {inner_e}")
+#                     continue
+
+#     except Exception as e:
+#         print(f'Unsuccessful: {e} on {url}')
+#         continue
+
+#     # Menyimpan hasil ke DataFrame
+#     src_df.loc[i, 'Email'] = email
+#     print(f'website: {url}\nemail: {email}\n')
+
+#     # Simpan hasil setelah semua proses scraping selesai ke dalam folder Central NY dengan nama file berdasarkan title
+#     output_filename = 'hasil-----.csv'
+#     src_df.to_csv(output_filename, index=False)
+
+# # Tutup driver setelah selesai
+# driver.quit()
