@@ -16,6 +16,20 @@ def format_url(url):
         return ''  # Jika kosong, kembalikan string kosong
     return url if url.startswith(('http://', 'https://')) else f'http://{url}'
 
+# # Fungsi untuk mendapatkan email
+# def get_email(soup):
+#     # Mencari email dari teks biasa
+#     email_matches = re.findall(r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)', soup.text)
+#     if email_matches:
+#         return email_matches[-1]
+
+#     # Mencari email dari link mailto
+#     mailto_links = soup.select("a[href*=mailto]")
+#     if mailto_links:
+#         return mailto_links[-1]['href'].split(':')[1]
+
+#     return ''
+
 # Fungsi untuk mendapatkan email
 def get_email(soup):
     # Mencari email dari teks biasa
@@ -28,11 +42,19 @@ def get_email(soup):
     if mailto_links:
         return mailto_links[-1]['href'].split(':')[1]
 
+    # Mencari email dalam elemen HTML seperti <p> dengan pola "Email: info@domain.com"
+    email_paragraphs = soup.find_all('p', string=re.compile(r'Email:', re.IGNORECASE))
+    for p in email_paragraphs:
+        email_match = re.search(r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)', p.text)
+        if email_match:
+            return email_match.group(1)
+
     return ''
+
 
 # Fungsi untuk mencari tautan 'contact', 'about', dll.
 def find_additional_pages(soup, base_url):
-    keywords = ['Contact','Contact Us', 'About Us','Contact us', 'About us', 'about-us', 'about', 'contacts', ]
+    keywords = ['Contact','Contact Us']
     links = soup.find_all('a', href=True)
 
     for link in links:
