@@ -16,6 +16,20 @@ def format_url(url):
         return ''  # Jika kosong, kembalikan string kosong
     return url if url.startswith(('http://', 'https://')) else f'http://{url}'
 
+# # Fungsi untuk mendapatkan email
+# def get_email(soup):
+#     # Mencari email dari teks biasa
+#     email_matches = re.findall(r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)', soup.text)
+#     if email_matches:
+#         return email_matches[-1]
+
+#     # Mencari email dari link mailto
+#     mailto_links = soup.select("a[href*=mailto]")
+#     if mailto_links:
+#         return mailto_links[-1]['href'].split(':')[1]
+
+#     return ''
+
 # Fungsi untuk mendapatkan email
 def get_email(soup):
     # Mencari email dari teks biasa
@@ -28,18 +42,41 @@ def get_email(soup):
     if mailto_links:
         return mailto_links[-1]['href'].split(':')[1]
 
+    # Mencari email dalam elemen HTML seperti <p> dengan pola "Email: info@domain.com"
+    email_paragraphs = soup.find_all('p', string=re.compile(r'Email:', re.IGNORECASE))
+    for p in email_paragraphs:
+        email_match = re.search(r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)', p.text)
+        if email_match:
+            return email_match.group(1)
+
     return ''
 
-# Fungsi untuk mencari tautan 'contact', 'about', dll.
+
+# # Fungsi untuk mencari tautan 'contact', 'about', dll.
+# def find_additional_pages(soup, base_url):
+#     keywords = ['contact']
+#     links = soup.find_all('a', href=True)
+
+#     for link in links:
+#         href = link['href'].lower()
+#         if any(keyword in href for keyword in keywords):
+#             return href if href.startswith('http') else base_url + href
+#     return None
+
+
+# Fungsi untuk mencari tautan 'contact', 'about', dll. berdasarkan teks
 def find_additional_pages(soup, base_url):
-    keywords = ['Contact','Contact Us', 'About Us','Contact us', 'About us', 'about-us', 'about', 'contacts', ]
-    links = soup.find_all('a', href=True)
+    keywords = ['contact']
+    links = soup.find_all('a', href=True)  # Cari semua tautan
 
     for link in links:
-        href = link['href'].lower()
-        if any(keyword in href for keyword in keywords):
-            return href if href.startswith('http') else base_url + href
+        link_text = link.text.strip().lower()  # Ambil teks tautan dan ubah menjadi huruf kecil
+        if any(keyword in link_text for keyword in keywords):  # Cek apakah teks mengandung salah satu kata kunci
+            href = link['href']
+            # Pastikan tautan lengkap dengan skema
+            return href if href.startswith('http') else f"{base_url.rstrip('/')}/{href.lstrip('/')}"
     return None
+
 
 
 # Konfigurasi opsi Chrome untuk mode headless
@@ -59,7 +96,7 @@ chrome_options.add_argument("--disable-extensions")
 driver = webdriver.Chrome(options=chrome_options)
 
 # Ubah nama kolom sesuai kebutuhan
-src_df.columns = ['Title', 'Name', 'Address', 'Contact', 'Url', 'Email']
+src_df.columns = ['County','Title','Name','Address','Contact','Email','Url']
 
 # Loop untuk memproses setiap baris dalam DataFrame
 for i, row in src_df.iterrows():
@@ -95,7 +132,7 @@ for i, row in src_df.iterrows():
     print(f'website: {url}\nemail: {email}\n')
 
     # Simpan hasil setelah semua proses scraping selesai ke dalam folder Central NY dengan nama file berdasarkan title
-    output_filename = 'hasil-scraping---1.csv'
+    output_filename = 'tambahan-hasil-scraping---1.csv'
     src_df.to_csv(output_filename, index=False)
 
 # Tutup driver setelah selesai

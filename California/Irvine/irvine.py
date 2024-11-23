@@ -29,13 +29,13 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://irvinemomsnetwork.com/resources/child-care/',  cookies=cookies, headers=headers)
+response = requests.get('https://irvinemomsnetwork.com/resources/new-moms/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Child Care'
+title_name = 'New Moms'
 
 reviews_1 = soup.find_all('div', {'class': 'entry-content'})
 
@@ -79,14 +79,14 @@ for result in results:
     print(f"url = {result['url']}")
     print() 
                
-filename = f"{title_name}.csv"
+# filename = f"{title_name}.csv"
 
-with open(filename, mode='w', newline='', encoding='utf-8') as file:
-    writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','url'])
-    writer.writeheader()  
-    writer.writerows(results)  
+# with open(filename, mode='w', newline='', encoding='utf-8') as file:
+#     writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','url'])
+#     writer.writeheader()  
+#     writer.writerows(results)  
 
-print(f"Data telah disimpan ke dalam file '{filename}'")
+# print(f"Data telah disimpan ke dalam file '{filename}'")
 
 
 
