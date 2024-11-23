@@ -52,16 +52,31 @@ def get_email(soup):
     return ''
 
 
-# Fungsi untuk mencari tautan 'contact', 'about', dll.
+# # Fungsi untuk mencari tautan 'contact', 'about', dll.
+# def find_additional_pages(soup, base_url):
+#     keywords = ['contact']
+#     links = soup.find_all('a', href=True)
+
+#     for link in links:
+#         href = link['href'].lower()
+#         if any(keyword in href for keyword in keywords):
+#             return href if href.startswith('http') else base_url + href
+#     return None
+
+
+# Fungsi untuk mencari tautan 'contact', 'about', dll. berdasarkan teks
 def find_additional_pages(soup, base_url):
-    keywords = ['Contact','Contact Us']
-    links = soup.find_all('a', href=True)
+    keywords = ['contact']
+    links = soup.find_all('a', href=True)  # Cari semua tautan
 
     for link in links:
-        href = link['href'].lower()
-        if any(keyword in href for keyword in keywords):
-            return href if href.startswith('http') else base_url + href
+        link_text = link.text.strip().lower()  # Ambil teks tautan dan ubah menjadi huruf kecil
+        if any(keyword in link_text for keyword in keywords):  # Cek apakah teks mengandung salah satu kata kunci
+            href = link['href']
+            # Pastikan tautan lengkap dengan skema
+            return href if href.startswith('http') else f"{base_url.rstrip('/')}/{href.lstrip('/')}"
     return None
+
 
 
 # Konfigurasi opsi Chrome untuk mode headless
