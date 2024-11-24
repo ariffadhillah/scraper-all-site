@@ -8,7 +8,7 @@ import csv
 
 
 cookies = {
-    'cookie':'_ga=GA1.1.1749511176.1732328238; _fbp=fb.1.1732328238834.715974469757463851; cf_clearance=EYXBcaJU_R3EKTqrg_XqCSJDxJmYTGfnD25nY.5vXAM-1732456156-1.2.1.1-SjzcVXaCtd4TNOhGL5t6b6vXzYsTsP51AXbFfs10uCO7PZ1rVd9KWJYSAU30JO5tsU.sz1Y4qRNNYVFTnGy.Jvm81ENBOaYy_obdn9xTtNPpUDNSuwc6YteW7h_Gum4NvEtz0nbl_HvkzJ4p3Cdg4vCNhUjH0CztmGfI2yqfXvrnFDtJ27UuhNc6hNRolU.hUJE6Eaoum0dJXE9xEkEs1sMyzhLJ7qN38BoDUGPZ2wRXbpKqKfWV0mDQPQpxyugkeLSEyshJHsE3v3JpOGUOiRBBvAyHGZffJ3VTtQNCX4iIAXEBrVZBkmBy0MEvHjfCrZlEhGCVzHLSdT.v_orCpz9pME7O7.uBXBZa3rVHJJIrFbdf4FbPt6KEFtkk9QrV9Kp.9zVm41myfB8J_LO6lNPSiimH5ztSo1Xrlv2_Dcg; __gads=ID=48ce52c8b2fbc0a5:T=1732328239:RT=1732456163:S=ALNI_Mb4SC6F--_kLZKBcx3lMVWWr79nuA; __gpi=UID=00000f728fee63a5:T=1732328239:RT=1732456163:S=ALNI_MbC78cWyuN7UFCZgf46fHybGkHgHw; __eoi=ID=b81706f17b9e0d6e:T=1732328239:RT=1732456163:S=AA-Afjbb0XZ0GgyLeeLYfXNhA9dc; _ga_Z5XB5W5D00=GS1.1.1732456156.3.1.1732456335.0.0.0'
+    'cookie':'_ga=GA1.1.1749511176.1732328238; _fbp=fb.1.1732328238834.715974469757463851; cf_clearance=PS.SqJjNFoIV_VN06gJETPQpL3tc8K5cqRGweFpI54s-1732458028-1.2.1.1-xAtKFSAoeCvs5nSs94il4dp7njjyZhH54e0txqo0Ftc1oQ8R39cZnRaigWrDOfzcqA8XpB_K8w561yiE6_c2RoilVSiPGA29hCmS9yJoMo7qIaKHg0_cgZAVXB4xa3In5RFYFSwb9ujznWX00CybEW0MKMDT9Vn81d4FMrJe02zpwBDv0StgY1M9_p4blLUCfdbYBQG2E0I8z32hDsndbt_IeJanxqVQI.sriP5NYtpQBGKF58Q4leSNUBIjSkd3YrKWm6r3wES_nIEUo9HeJnj277Z9VBRV5e.Z8pjKhnWY7PXay0uyVX67EynnuP07ROiUWVQHwSvvbOZLatOAhguJ0yMnN9vLyCGPuNIXoddLPWmGxGV2HK.4Ogd_FCGqh9KbEhRvOKEWdhw.ISHSF2O9SEXEIaufp1hZWO6PCWo; __gads=ID=48ce52c8b2fbc0a5:T=1732328239:RT=1732458034:S=ALNI_Mb4SC6F--_kLZKBcx3lMVWWr79nuA; __gpi=UID=00000f728fee63a5:T=1732328239:RT=1732458034:S=ALNI_MbC78cWyuN7UFCZgf46fHybGkHgHw; __eoi=ID=b81706f17b9e0d6e:T=1732328239:RT=1732458034:S=AA-Afjbb0XZ0GgyLeeLYfXNhA9dc; _ga_Z5XB5W5D00=GS1.1.1732456156.3.1.1732458087.0.0.0'
 }
 
 headers = {
@@ -29,15 +29,15 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://beachcitiesmoms.com/resources/childrens-parties/',  cookies=cookies, headers=headers)
+response = requests.get('https://beachcitiesmoms.com/resources/doctors/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Childrens Parties'
+title_name = 'Doctors'
 
-reviews_1 = soup.find_all('div', {'class': 'entry-content'})
+reviews_1 = soup.find_all('div', {'class': 'et_pb_tab_content'})
 
 for page_ in reviews_1:
     paragraphs_1 = page_.find_all('p')
