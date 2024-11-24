@@ -79,12 +79,12 @@ for result in results:
     print(f"url = {result['url']}")
     print() 
                
-# filename = f"{title_name}.csv"
+filename = f"{title_name}.csv"
 
-# with open(filename, mode='w', newline='', encoding='utf-8') as file:
-#     writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','url'])
-#     writer.writeheader()  
-#     writer.writerows(results)  
+with open(filename, mode='w', newline='', encoding='utf-8') as file:
+    writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','url'])
+    writer.writeheader()  
+    writer.writerows(results)  
 
-# print(f"Data telah disimpan ke dalam file '{filename}'")
+print(f"Data telah disimpan ke dalam file '{filename}'")
 
