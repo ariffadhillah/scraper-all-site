@@ -2,7 +2,7 @@ import pandas as pd
 import re
 
 # Load the CSV file
-file_path = 'hasil-scraping---1.csv'  # Replace with your actual file path
+file_path = 'tambahan-hasil-scraping---1.csv'  # Replace with your actual file path
 df = pd.read_csv(file_path)
 
 # Define a function to extract phone numbers
@@ -19,7 +19,7 @@ df['Contact'] = df['Address'].apply(lambda x: extract_phone_number(x) if pd.notn
 df['Address'] = df['Address'].apply(lambda x: re.sub(r'\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b', '', x).strip() if isinstance(x, str) else x)
 
 # Save the modified DataFrame to a new CSV file
-output_file_path = 'cleaned_data_____.csv'
+output_file_path = 'tambahan__cleaned_data_____.csv'
 df.to_csv(output_file_path, index=False)
 
 print("Phone numbers have been extracted and saved to a new column in cleaned_data.csv.")

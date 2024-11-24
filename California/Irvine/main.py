@@ -12,7 +12,6 @@ src_df = pd.read_csv(url_google_sheet_csv)
 
 # Fungsi untuk memeriksa apakah URL memiliki skema (http/https) dan menghindari baris kosong
 def format_url(url):
-    time.sleep(1)
     if pd.isna(url):  # Memeriksa apakah URL kosong atau NaN
         return ''  # Jika kosong, kembalikan string kosong
     return url if url.startswith(('http://', 'https://')) else f'http://{url}'
@@ -34,19 +33,16 @@ def format_url(url):
 # Fungsi untuk mendapatkan email
 def get_email(soup):
     # Mencari email dari teks biasa
-    time.sleep(1)
     email_matches = re.findall(r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)', soup.text)
     if email_matches:
         return email_matches[-1]
 
     # Mencari email dari link mailto
-    time.sleep(1)
     mailto_links = soup.select("a[href*=mailto]")
     if mailto_links:
         return mailto_links[-1]['href'].split(':')[1]
 
     # Mencari email dalam elemen HTML seperti <p> dengan pola "Email: info@domain.com"
-    time.sleep(1)
     email_paragraphs = soup.find_all('p', string=re.compile(r'Email:', re.IGNORECASE))
     for p in email_paragraphs:
         email_match = re.search(r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)', p.text)
@@ -71,16 +67,13 @@ def get_email(soup):
 # Fungsi untuk mencari tautan 'contact', 'about', dll. berdasarkan teks
 def find_additional_pages(soup, base_url):
     keywords = ['contact']
-    time.sleep(.5)
     links = soup.find_all('a', href=True)  # Cari semua tautan
-    time.sleep(.5)
 
     for link in links:
         link_text = link.text.strip().lower()  # Ambil teks tautan dan ubah menjadi huruf kecil
         if any(keyword in link_text for keyword in keywords):  # Cek apakah teks mengandung salah satu kata kunci
             href = link['href']
             # Pastikan tautan lengkap dengan skema
-            time.sleep(1)
             return href if href.startswith('http') else f"{base_url.rstrip('/')}/{href.lstrip('/')}"
     return None
 
@@ -139,7 +132,7 @@ for i, row in src_df.iterrows():
     print(f'website: {url}\nemail: {email}\n')
 
     # Simpan hasil setelah semua proses scraping selesai ke dalam folder Central NY dengan nama file berdasarkan title
-    output_filename = 'tambahan-hasil-scraping---1.csv'
+    output_filename = 'hasil-scraping---1.csv'
     src_df.to_csv(output_filename, index=False)
 
 # Tutup driver setelah selesai
