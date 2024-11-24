@@ -29,15 +29,15 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://beachcitiesmoms.com/resources/dentists/',  cookies=cookies, headers=headers)
+response = requests.get('https://beachcitiesmoms.com/resources/fitness/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Dentists'
+title_name = 'Fitness'
 
-reviews_1 = soup.find_all('div', {'class': 'entry-content'})
+reviews_1 = soup.find_all('div', {'class': 'et_pb_tab_content'})
 
 for page_ in reviews_1:
     paragraphs_1 = page_.find_all('p')
@@ -54,7 +54,7 @@ for page_ in reviews_1:
             # address = p.get_text(strip=True).replace(name, '').strip()
             address = ', '.join(p.stripped_strings)
             address = p.get_text(strip=True).replace(name, '').replace(url, '').strip()
-            # address = address if address else 'none'
+            address = address if address else 'none'
             # address = address.replace(name, '').strip()
             address = address.lstrip(', ') 
 
