@@ -29,15 +29,15 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://newportmesamoms.com/resources/entertainment/',  cookies=cookies, headers=headers)
+response = requests.get('https://newportmesamoms.com/resources/fitness/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Entertainment'
+title_name = 'Fitness'
 
-reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
+reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
 
 for page_ in reviews_1:
     paragraphs_1 = page_.find_all('p')
