@@ -29,15 +29,15 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
 
-response = requests.get('https://newportmesamoms.com/resources/home-sweet-home-2/',  cookies=cookies, headers=headers)
+response = requests.get('https://newportmesamoms.com/resources/libraries-and-parks/',  cookies=cookies, headers=headers)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 results = []
 
-title_name = 'Home Sweet Home'
+title_name = 'Libraries & Parks'
 
-reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
+reviews_1 = soup.find_all('div', {'class': 'et_pb_text_inner'})
 
 for page_ in reviews_1:
     paragraphs_1 = page_.find_all('p')
