@@ -126,9 +126,9 @@ def setup_browser():
 def open_to_website(browser):
     results = []
 
-    title_name = 'Your Home'
+    title_name = 'Child Care'
     # Kunjungi kembali URL target setelah cookie diterapkan
-    browser.get("https://thenorthcountymoms.com/resources/your-home/")
+    browser.get("https://thenorthcountymoms.com/resources/child-care/")
     time.sleep(10)
 
     # Ambil sumber halaman (HTML)
