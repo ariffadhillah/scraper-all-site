@@ -105,11 +105,11 @@ def setup_browser():
     cookies = [
         {"name": "_fbp", "value": "fb.1.1732807560072.127223409596317120"},
         {"name": "_ga", "value": "GA1.1.921290859.1732807560"},
-        {"name": "cf_clearance", "value": "t7x0x5USNTUjqtYVaco_kOwoqiJZU1OOo9d4dQaGZV0-1733011665-1.2.1.1-qBecuDYDyn7n2w15e5wbq7okB1WalWolNWQPC2xK5FT8EwyaT1qpmV9rM5QjixM3FT6TBofAWFUcIfvZzspMT2Ye.D043hGr2LNqm_Qv6CNkjnte5ZiIg8_jE79trV9tuRVHqyPKARAHD_oTbQRvXNQl4771HtZmoBgB1Q6gtyMbFrHYzQrEqT5P3JdVtWmkCIKlEK_bF7ZabmyUUW7XI_g50gb72mUEzN7FHMTJUj90WwNppyBxGhp47u0z2My.MCwraTrFC3aKxcYjfLA1Lo3FYM335yMOA6rDIysBMkT0jvnUdtxePafsPtVnG0HRu7AfoNaFZfsxFk8hxeIshoIJQNm7Z1Q6RZgdv4AypiK2SQE8qIk0LiurfLWt.KfL4BNYHCw1fZstdwLKKchiGtvbCrFxWfPikAR0OkfiBE8L_T6IrPPXUhE2404gCLxn"},
-        {"name": "__gads", "value": "ID=9f9b30f5fdd0f87a:T=1732807554:RT=1733011672:S=ALNI_MaiKATCq-L6Euewxc8tHLUUs6jUFg"},
-        {"name": "__gpi", "value": "UID=00000f798b4a11e7:T=1732807554:RT=1733011672:S=ALNI_MZi6trZhZLMBxNv94Fsf4nVI9gqUQ"},
-        {"name": "__eoi", "value": "ID=9a4445b84edfae85:T=1732807554:RT=1733011672:S=AA-AfjaoAay7SoIMPviMKhYL4vtR"},
-        {"name": "_ga_N9HWH8N387", "value": "GS1.1.1733011670.9.1.1733011706.0.0.0"},
+        {"name": "cf_clearance", "value": "8H8azDgUrjOyOJAVcc7l8BfQprTZcY81kjXS4r6c4us-1733013553-1.2.1.1-JVhrBgAl8uIvncDdvlsSkZnzEi3zej4tX24xA7aZBwZb5ZFLdl38TxAhzabjsbs3DeE8.7EM6TuZJpycNYWkSFXAlkrkNSzGnH2y421ZYOLZteuuwaFo6Ioa6GPJXAAbURmUpesWkFLVLQ1szmdc4kiYbT96EU6xekVhDWXWW1e.U51azJtJxM8wifpJZFc_hpMtomV3P.8xlsDAOLK3iE7SCWd245RE5AdSINRmoXGYazA7VNEns.dGWm9Qmh4DhyNEmmJRqqfoq27vOotp0.duEqA_SiAmaOxPkTvIHzx7gdwLL2zyHI1aN_d3JHsxMyVCL3M.Gjvm478_UgZXmsAOcSkZu5rMDdayQaoEJz1wX2s.qKOm2bm0vhlMaB1shzrEa.IbSZYwOZRq26AyeFCW8lKFKZNrGcoKUo.1o6avifrBv_otSWTBUkEGmNGz"},
+        {"name": "__gads", "value": "ID=9f9b30f5fdd0f87a:T=1732807554:RT=1733013280:S=ALNI_MaiKATCq-L6Euewxc8tHLUUs6jUFg"},
+        {"name": "__gpi", "value": "UID=00000f798b4a11e7:T=1732807554:RT=1733013280:S=ALNI_MZi6trZhZLMBxNv94Fsf4nVI9gqUQ"},
+        {"name": "__eoi", "value": "ID=9a4445b84edfae85:T=1732807554:RT=1733013280:S=AA-AfjaoAay7SoIMPviMKhYL4vtR"},
+        {"name": "_ga_N9HWH8N387", "value": "GS1.1.1733011670.9.1.1733013575.0.0.0"},
     ]
 
     # Menambahkan cookie ke browser
