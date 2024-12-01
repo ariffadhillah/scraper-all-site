@@ -97,7 +97,7 @@ def setup_browser():
     browser.maximize_window()
 
     # Buka halaman awal (wajib sebelum menambahkan cookie)
-    browser.get("https://thenorthcountymoms.com/auto-transport/")
+    browser.get("https://thenorthcountymoms.com/")
     time.sleep(5)  # Tunggu hingga halaman terbuka
 
 
@@ -126,9 +126,9 @@ def setup_browser():
 def open_to_website(browser):
     results = []
 
-    title_name = 'North County Dining, Farms & Treats'
+    title_name = 'Malls + Shops + Eats'
     # Kunjungi kembali URL target setelah cookie diterapkan
-    browser.get("https://thenorthcountymoms.com/resources/family-dining/")
+    browser.get("https://thenorthcountymoms.com/local-malls/")
     time.sleep(10)
 
     # Ambil sumber halaman (HTML)
