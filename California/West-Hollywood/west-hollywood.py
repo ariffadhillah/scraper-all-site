@@ -56,11 +56,11 @@ def setup_browser():
         {"name": "_ga_N9HWH8N387", "value": "GS1.1.1733011670.9.1.1733013575.0.0.0"},
     ]
 
-    # Menambahkan cookie ke browser
+
     for cookie in cookies:
         browser.add_cookie(cookie)
 
-    # Refresh browser untuk menerapkan cookie
+
     browser.refresh()
     time.sleep(5)
 
@@ -70,26 +70,22 @@ def setup_browser():
 def open_to_website(browser):
     results = []
 
-    # title_name = 'Wellness'
-    # Kunjungi kembali URL target setelah cookie diterapkan
-    browser.get("https://thewesthollywoodmoms.com/resources/childrens-parties/")
+
+    browser.get("https://thewesthollywoodmoms.com/resources/family-dining/")
     time.sleep(10)
 
-    # Ambil sumber halaman (HTML)
+
     page_source = browser.page_source
 
-    # Parsing dengan BeautifulSoup
+
     soup = BeautifulSoup(page_source, "html.parser")
 
-    # Temukan elemen dengan kelas `et_pb_tab_content`
-    # tab_content_elements = soup.find_all("div", class_="et_pb_tab_content")
 
-# Mencari semua <div> dengan kelas tertentu
-    output_ = 'Children’s Parties'
+    output_ = 'Dining'
 
     divs = soup.find_all('div', class_='et_pb_toggle_content clearfix')
 
-    # Menyimpan data dalam bentuk list of dictionaries
+
     data = []
 
     for div in divs:
@@ -100,7 +96,7 @@ def open_to_website(browser):
             href = link['href'] if link else None
 
             if href:
-                # Jika sudah ada entry sebelumnya, simpan ke data
+
                 if current_entry:
                     data.append(current_entry)
                     current_entry = {}
@@ -108,13 +104,13 @@ def open_to_website(browser):
                 current_entry['Name'] = text
                 current_entry['Url'] = href
 
-            elif text and text != '\xa0':  # Abaikan elemen kosong
+            elif text and text != '\xa0':  
                 if 'Address' not in current_entry:
                     current_entry['Address'] = text
                 else:
                     current_entry['Address'] += f", {text}"
 
-        # Tambahkan entry terakhir jika ada
+
         if current_entry:
             data.append(current_entry)
 
@@ -126,7 +122,7 @@ def open_to_website(browser):
 
 
 
-    # Simpan ke dalam file CSV
+
     csv_file = f'{output_}.csv'
     with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','Url'])
@@ -144,4 +140,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
