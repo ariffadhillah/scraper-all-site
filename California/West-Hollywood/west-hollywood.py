@@ -71,7 +71,7 @@ def open_to_website(browser):
     results = []
 
 
-    browser.get("https://thewesthollywoodmoms.com/resources/schools/")
+    browser.get("https://thewesthollywoodmoms.com/resources/teen/")
     time.sleep(10)
 
 
@@ -81,7 +81,7 @@ def open_to_website(browser):
     soup = BeautifulSoup(page_source, "html.parser")
 
 
-    output_ = 'Schools'
+    output_ = 'Teen'
 
     divs = soup.find_all('div', class_='et_pb_toggle_content clearfix')
 
