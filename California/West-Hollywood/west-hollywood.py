@@ -72,7 +72,7 @@ def open_to_website(browser):
 
     # title_name = 'Wellness'
     # Kunjungi kembali URL target setelah cookie diterapkan
-    browser.get("https://thewesthollywoodmoms.com/resources/pet-care/")
+    browser.get("https://thewesthollywoodmoms.com/resources/sports/")
     time.sleep(10)
 
     # Ambil sumber halaman (HTML)
@@ -85,7 +85,7 @@ def open_to_website(browser):
     # tab_content_elements = soup.find_all("div", class_="et_pb_tab_content")
 
 # Mencari semua <div> dengan kelas tertentu
-    output_ = 'Pet Care'
+    output_ = 'Sports'
 
     divs = soup.find_all('div', class_='et_pb_toggle_content clearfix')
 
