@@ -5,193 +5,143 @@ from bs4 import BeautifulSoup
 import csv
 
 
+import requests
+from curl_cffi import requests
+import json
+from bs4 import BeautifulSoup
+import csv
 
 
-cookies = {
-    'cookie':'_fbp=fb.1.1732807659922.616212447387960585; __gads=ID=b1eea2652e44ef80:T=1732807657:RT=1732837025:S=ALNI_MYlkdctaMg9t0iO6yJ0s5LyhcRS2Q; __gpi=UID=00000fa1cc4b19b7:T=1732807657:RT=1732837025:S=ALNI_MZ0acyeJcCaT6UzA4H_waXWrmw0iw; __eoi=ID=4633d3281cb05a2a:T=1732807657:RT=1732837025:S=AA-AfjYQHzPvZMAiuMgc9jtEu58T'
-}
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
+from bs4 import BeautifulSoup
 
-headers = {
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-    'accept-language': 'en-US,en;q=0.9,id;q=0.8',
-    'cache-control': 'max-age=0',
-    'dnt': '1',
-    'priority': 'u=0, i',
-    'referer': 'https://thewesthollywoodmoms.com/resources/',
-    'sec-ch-ua': 'Google Chrome";v="131.0.6778.86", "Chromium";v="131.0.6778.86", "Not_A Brand";v="24.0.0.0',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-user': '?1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-}
 
-response = requests.get('https://thewesthollywoodmoms.com/resources/childrens-activities/',  cookies=cookies, headers=headers)
 
-soup = BeautifulSoup(response.content, 'html.parser')
+def setup_browser():
+    # Konfigurasi Chrome Options
+    chrome_options = Options()
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("start-maximized")
+    chrome_options.add_argument("--disable-extensions")
 
-results = []
+    # chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--no-sandbox')
+    # chrome_options.add_argument('--disable-dev-shm-usage')
+    # chrome_options.add_argument('--disable-gpu')
 
-title_name = 'New Moms'
 
-# reviews_1 = soup.find_all('div', {'class': 'et_pb_toggle_content clearfix'})
+    chrome_options.add_argument(
+        "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+    )
+
+    # Inisialisasi browser
+    browser = webdriver.Chrome(options=chrome_options)
+    browser.maximize_window()
+
+    # Buka halaman awal (wajib sebelum menambahkan cookie)
+    browser.get("https://thewesthollywoodmoms.com/")
+    time.sleep(5)  # Tunggu hingga halaman terbuka
+
+
+    # Daftar cookie
+    cookies = [
+        {"name": "_fbp", "value": "fb.1.1732807560072.127223409596317120"},
+        {"name": "_ga", "value": "GA1.1.921290859.1732807560"},
+        {"name": "cf_clearance", "value": "8H8azDgUrjOyOJAVcc7l8BfQprTZcY81kjXS4r6c4us-1733013553-1.2.1.1-JVhrBgAl8uIvncDdvlsSkZnzEi3zej4tX24xA7aZBwZb5ZFLdl38TxAhzabjsbs3DeE8.7EM6TuZJpycNYWkSFXAlkrkNSzGnH2y421ZYOLZteuuwaFo6Ioa6GPJXAAbURmUpesWkFLVLQ1szmdc4kiYbT96EU6xekVhDWXWW1e.U51azJtJxM8wifpJZFc_hpMtomV3P.8xlsDAOLK3iE7SCWd245RE5AdSINRmoXGYazA7VNEns.dGWm9Qmh4DhyNEmmJRqqfoq27vOotp0.duEqA_SiAmaOxPkTvIHzx7gdwLL2zyHI1aN_d3JHsxMyVCL3M.Gjvm478_UgZXmsAOcSkZu5rMDdayQaoEJz1wX2s.qKOm2bm0vhlMaB1shzrEa.IbSZYwOZRq26AyeFCW8lKFKZNrGcoKUo.1o6avifrBv_otSWTBUkEGmNGz"},
+        {"name": "__gads", "value": "ID=9f9b30f5fdd0f87a:T=1732807554:RT=1733013280:S=ALNI_MaiKATCq-L6Euewxc8tHLUUs6jUFg"},
+        {"name": "__gpi", "value": "UID=00000f798b4a11e7:T=1732807554:RT=1733013280:S=ALNI_MZi6trZhZLMBxNv94Fsf4nVI9gqUQ"},
+        {"name": "__eoi", "value": "ID=9a4445b84edfae85:T=1732807554:RT=1733013280:S=AA-AfjaoAay7SoIMPviMKhYL4vtR"},
+        {"name": "_ga_N9HWH8N387", "value": "GS1.1.1733011670.9.1.1733013575.0.0.0"},
+    ]
+
+    # Menambahkan cookie ke browser
+    for cookie in cookies:
+        browser.add_cookie(cookie)
+
+    # Refresh browser untuk menerapkan cookie
+    browser.refresh()
+    time.sleep(5)
+
+    return browser
+
+
+def open_to_website(browser):
+    results = []
+
+    title_name = 'Wellness'
+    # Kunjungi kembali URL target setelah cookie diterapkan
+    browser.get("https://thewesthollywoodmoms.com/resources/aquatics/")
+    time.sleep(10)
+
+    # Ambil sumber halaman (HTML)
+    page_source = browser.page_source
+
+    # Parsing dengan BeautifulSoup
+    soup = BeautifulSoup(page_source, "html.parser")
+
+    # Temukan elemen dengan kelas `et_pb_tab_content`
+    # tab_content_elements = soup.find_all("div", class_="et_pb_tab_content")
 
 # Mencari semua <div> dengan kelas tertentu
-divs = soup.find_all('div', class_='et_pb_toggle_content clearfix')
+    output_ = 'Aquatics'
 
-# Menyimpan data dalam bentuk list of dictionaries
-data = []
+    divs = soup.find_all('div', class_='et_pb_toggle_content clearfix')
 
-for div in divs:
-    current_entry = {}
-    for p in div.find_all('p'):
-        text = p.get_text(strip=True)
-        link = p.find('a')
-        href = link['href'] if link else None
+    # Menyimpan data dalam bentuk list of dictionaries
+    data = []
 
-        if href:
-            # Jika sudah ada entry sebelumnya, simpan ke data
-            if current_entry:
-                data.append(current_entry)
-                current_entry = {}
+    for div in divs:
+        current_entry = {}
+        for p in div.find_all('p'):
+            text = p.get_text(strip=True)
+            link = p.find('a')
+            href = link['href'] if link else None
 
-            current_entry['Name'] = text
-            current_entry['Url'] = href
+            if href:
+                # Jika sudah ada entry sebelumnya, simpan ke data
+                if current_entry:
+                    data.append(current_entry)
+                    current_entry = {}
 
-        elif text and text != '\xa0':  # Abaikan elemen kosong
-            if 'Address' not in current_entry:
-                current_entry['Address'] = text
-            else:
-                current_entry['Address'] += f", {text}"
+                current_entry['Name'] = text
+                current_entry['Url'] = href
 
-    # Tambahkan entry terakhir jika ada
-    if current_entry:
-        data.append(current_entry)
+            elif text and text != '\xa0':  # Abaikan elemen kosong
+                if 'Address' not in current_entry:
+                    current_entry['Address'] = text
+                else:
+                    current_entry['Address'] += f", {text}"
 
-for result in data:
-    print(f"Name = {result.get('Name', 'N/A')}")
-    print(f"Address = {result.get('Address', 'N/A')}")
-    print(f"Url = {result.get('Url', 'N/A')}")
-    print()
+        # Tambahkan entry terakhir jika ada
+        if current_entry:
+            data.append(current_entry)
 
-# print(data)
-
-
-
-# results = []  # Pastikan results didefinisikan sebelumnya
-
-# for page in reviews_1:
-#     # Temukan semua elemen <p> dalam <div>
-#     paragraphs = page.find_all('p')
-
-#     # Proses setiap blok alamat
-#     data = []
-#     current_entry = {}
-
-#     for p in paragraphs:
-#         # Ambil teks dan tautan (jika ada)
-#         text = p.get_text(strip=True)
-#         link = p.find('a')
-#         href = link['href'] if link else None
-
-#         # Jika <a> ditemukan, itu adalah nama dan URL
-#         if href:
-#             # Simpan entry sebelumnya jika ada
-#             if current_entry:
-#                 data.append(current_entry)
-#                 current_entry = {}
-
-#             current_entry['Name'] = text
-#             current_entry['Url'] = href
-
-#         elif text and text != '\xa0':  # Abaikan elemen kosong atau hanya spasi
-#             if 'Address' not in current_entry:
-#                 current_entry['Address'] = text
-#             else:
-#                 current_entry['Address'] += f", {text}"
-
-#     # Tambahkan entry terakhir jika ada
-#     if current_entry:
-#         results.append(current_entry)
-
-# # Cetak hasil
-# for result in results:
-#     print(f"Name = {result.get('Name', 'N/A')}")
-#     print(f"Address = {result.get('Address', 'N/A')}")
-#     print(f"Url = {result.get('Url', 'N/A')}")
-#     print()
-
-    # filename = f"{title_name}.csv"
-
-    # with open(filename, mode='w', newline='', encoding='utf-8') as file:
-    #     writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','url'])
-    #     writer.writeheader()  
-    #     writer.writerows(results)  
-
-    # print(f"Data telah disimpan ke dalam file '{filename}'")
+    for result in data:
+        print(f"Name = {result.get('Name', 'N/A')}")
+        print(f"Address = {result.get('Address', 'N/A')}")
+        print(f"Url = {result.get('Url', 'N/A')}")
+        print()
 
 
 
-# for page_ in reviews_1:
-#     paragraphs_1 = page_.find_all('p')
-#     # print(paragraphs_1)
-
-#     for p in paragraphs_1:
-#         name_element = p.find('a')
-#         name = name_element.text.strip() if name_element else ''
-#         a_tag = p.find('a')
-#         if a_tag:
-#             # name = a_tag.text
-#             url = a_tag['href']
-            
-#             # # address = p.get_text(strip=True).replace(name, '').strip()
-#             # address = ', '.join(p.stripped_strings)
-#             # address = p.get_text(strip=True).replace(name, '').replace(url, '').strip()
-#             # # address = address if address else 'none'
-#             # # address = address.replace(name, '').strip()
-#             # address = address.lstrip(', ') 
-
-#             address = ', '.join(p.stripped_strings)
-
-#             # Hapus 'name' dan 'url' dari teks
-#             address = address.replace(name, '').replace(url, '').strip()
-
-#             # Atur default jika address kosong
-#             address = address if address else 'none'
-
-#             # Hapus koma di awal teks, jika ada
-#             address = address.lstrip(', ')
-
-#             results.append({
-#                 'County':'Santa Barbara',
-#                 'Title' : title_name,
-#                 'Name': name,
-#                 'Address': address,
-#                 'Contact': '',
-#                 'Email':'',
-#                 'url': url
-#             })
+    # Simpan ke dalam file CSV
+    csv_file = f'{output_}.csv'
+    with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','Url'])
+        writer.writeheader()
+        writer.writerows(data)
 
 
-# for result in results:
-#     print(f"County = {result['County']}")
-#     print(f"Title = {result['Title']}")
-#     print(f"Name = {result['Name']}")
-#     print(f"Address = {result['Address']}")
-#     print(f"Contact = {result['Contact']}")
-#     print(f"Email = {result['Email']}")
-#     print(f"url = {result['url']}")
-#     print() 
-               
-# filename = f"{title_name}.csv"
 
-# with open(filename, mode='w', newline='', encoding='utf-8') as file:
-#     writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','url'])
-#     writer.writeheader()  
-#     writer.writerows(results)  
+def main():
+    browser = setup_browser()
+    open_to_website(browser)
+    time.sleep(50)
+    browser.quit()
 
-# print(f"Data telah disimpan ke dalam file '{filename}'")
+
+if __name__ == "__main__":
+    main()
 
