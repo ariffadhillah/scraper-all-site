@@ -126,9 +126,9 @@ def setup_browser():
 def open_to_website(browser):
     results = []
 
-    title_name = 'Children’s Parties'
+    title_name = 'North County Dining, Farms & Treats'
     # Kunjungi kembali URL target setelah cookie diterapkan
-    browser.get("https://thenorthcountymoms.com/resources/childrens-parties/")
+    browser.get("https://thenorthcountymoms.com/resources/family-dining/")
     time.sleep(10)
 
     # Ambil sumber halaman (HTML)
