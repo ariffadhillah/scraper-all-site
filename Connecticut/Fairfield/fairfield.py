@@ -71,7 +71,7 @@ def open_to_website(browser):
     results = []
 
 
-    browser.get("https://fairfieldctmoms.com/resources/for-the-dads/")
+    browser.get("https://fairfieldctmoms.com/resources/activities-and-classes/")
     time.sleep(10)
 
 
@@ -80,54 +80,110 @@ def open_to_website(browser):
 
     soup = BeautifulSoup(page_source, "html.parser")
 
+    results = []
 
-    output_ = 'For The Dads'
+    title_name = 'Activities & Classes'
 
-    divs = soup.find_all('div', class_='et_pb_toggle_content clearfix')
+    reviews_1 = soup.find_all('div', {'class': 'et_pb_tab et_pb_tab_1 clearfix'})
 
+    for page_ in reviews_1:
+        paragraphs_1 = page_.find_all('p')
+        # print(paragraphs_1)
 
-    data = []
+        for p in paragraphs_1:
+            name_element = p.find('a')
+            name = name_element.text.strip() if name_element else ''
+            a_tag = p.find('a')
+            if a_tag:
+                url = a_tag['href']
+                address = ', '.join(p.stripped_strings)
 
-    for div in divs:
-        current_entry = {}
-        for p in div.find_all('p'):
-            text = p.get_text(strip=True)
-            link = p.find('a')
-            href = link['href'] if link else None
+                address = address.replace(name, '').replace(url, '').strip()
 
-            if href:
+                address = address if address else 'none'
 
-                if current_entry:
-                    data.append(current_entry)
-                    current_entry = {}
+                address = address.lstrip(', ')
 
-                current_entry['Name'] = text
-                current_entry['Url'] = href
-
-            elif text and text != '\xa0':  
-                if 'Address' not in current_entry:
-                    current_entry['Address'] = text
-                else:
-                    current_entry['Address'] += f", {text}"
-
-
-        if current_entry:
-            data.append(current_entry)
-
-    for result in data:
-        print(f"Name = {result.get('Name', 'N/A')}")
-        print(f"Address = {result.get('Address', 'N/A')}")
-        print(f"Url = {result.get('Url', 'N/A')}")
-        print()
+                results.append({
+                    'County':'Activities & Classes',
+                    'Title' : title_name,
+                    'Name': name,
+                    'Address': address,
+                    'Contact': '',
+                    'Email':'',
+                    'url': url
+                })
 
 
+    for result in results:
+        print(f"County = {result['County']}")
+        print(f"Title = {result['Title']}")
+        print(f"Name = {result['Name']}")
+        print(f"Address = {result['Address']}")
+        print(f"Contact = {result['Contact']}")
+        print(f"Email = {result['Email']}")
+        print(f"url = {result['url']}")
+        print() 
+                
+    filename = f"{title_name}.csv"
+
+    with open(filename, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','url'])
+        writer.writeheader()  
+        writer.writerows(results)  
+
+    print(f"Data telah disimpan ke dalam file '{filename}'")
 
 
-    csv_file = f'{output_}.csv'
-    with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','Url'])
-        writer.writeheader()
-        writer.writerows(data)
+
+
+    # output_ = 'For The Dads'
+
+    # divs = soup.find_all('div', class_='et_pb_toggle_content clearfix')
+
+
+    # data = []
+
+    # for div in divs:
+    #     current_entry = {}
+    #     for p in div.find_all('p'):
+    #         text = p.get_text(strip=True)
+    #         link = p.find('a')
+    #         href = link['href'] if link else None
+
+    #         if href:
+
+    #             if current_entry:
+    #                 data.append(current_entry)
+    #                 current_entry = {}
+
+    #             current_entry['Name'] = text
+    #             current_entry['Url'] = href
+
+    #         elif text and text != '\xa0':  
+    #             if 'Address' not in current_entry:
+    #                 current_entry['Address'] = text
+    #             else:
+    #                 current_entry['Address'] += f", {text}"
+
+
+    #     if current_entry:
+    #         data.append(current_entry)
+
+    # for result in data:
+    #     print(f"Name = {result.get('Name', 'N/A')}")
+    #     print(f"Address = {result.get('Address', 'N/A')}")
+    #     print(f"Url = {result.get('Url', 'N/A')}")
+    #     print()
+
+
+
+
+    # csv_file = f'{output_}.csv'
+    # with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
+    #     writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','Url'])
+    #     writer.writeheader()
+    #     writer.writerows(data)
 
 
 
