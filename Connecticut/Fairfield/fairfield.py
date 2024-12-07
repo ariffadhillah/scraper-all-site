@@ -71,7 +71,7 @@ def open_to_website(browser):
     results = []
 
 
-    browser.get("https://fairfieldctmoms.com/resources/food-trucks/")
+    browser.get("https://fairfieldctmoms.com/resources/healthcare-providers/")
     time.sleep(10)
 
 
@@ -81,7 +81,7 @@ def open_to_website(browser):
     soup = BeautifulSoup(page_source, "html.parser")
 
 
-    output_ = 'Food Trucks'
+    output_ = 'Healthcare Providers'
 
     divs = soup.find_all('div', class_='et_pb_tab_content')
 
