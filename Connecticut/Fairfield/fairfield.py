@@ -71,7 +71,7 @@ def open_to_website(browser):
     results = []
 
 
-    browser.get("https://fairfieldctmoms.com/resources/activities-and-classes/")
+    browser.get("https://fairfieldctmoms.com/resources/food-trucks/")
     time.sleep(10)
 
 
@@ -82,33 +82,32 @@ def open_to_website(browser):
 
     results = []
 
-    title_name = 'Activities & Classes'
-
-    reviews_1 = soup.find_all('div', {'class': 'et_pb_tab et_pb_tab_1 clearfix'})
+    title_name = 'Food Trucks'
+    
+    reviews_1 = soup.find_all('div', class_=['et_pb_tab et_pb_tab_0 clearfix', 'et_pb_tab et_pb_tab_1 clearfix', 'et_pb_tab et_pb_tab_2 clearfix','et_pb_tab et_pb_tab_3 clearfix','et_pb_tab et_pb_tab_4 clearfix','et_pb_tab et_pb_tab_5 clearfix','et_pb_tab et_pb_tab_6 clearfix','et_pb_tab et_pb_tab_7 clearfix'])
 
     for page_ in reviews_1:
         paragraphs_1 = page_.find_all('p')
         # print(paragraphs_1)
 
         for p in paragraphs_1:
-            name_element = p.find('a')
-            name = name_element.text.strip() if name_element else ''
             a_tag = p.find('a')
             if a_tag:
+                name = a_tag.text
                 url = a_tag['href']
+                
+                # address = p.get_text(strip=True).replace(name, '').strip()
                 address = ', '.join(p.stripped_strings)
-
-                address = address.replace(name, '').replace(url, '').strip()
-
-                address = address if address else 'none'
-
-                address = address.lstrip(', ')
+                # address = p.get_text(strip=True).replace(name, '').strip()
+                # address = address if address else 'none'
+                address = address.replace(name, '').strip()
+                address = address.lstrip(', ') 
 
                 results.append({
-                    'County':'Activities & Classes',
+                    'County':'Fairfield',
                     'Title' : title_name,
                     'Name': name,
-                    'Address': address,
+                    'Address': address.replace('Click for details!','').replace('Click for reservations!',''),
                     'Contact': '',
                     'Email':'',
                     'url': url
@@ -124,6 +123,9 @@ def open_to_website(browser):
         print(f"Email = {result['Email']}")
         print(f"url = {result['url']}")
         print() 
+
+
+
                 
     filename = f"{title_name}.csv"
 
@@ -133,58 +135,6 @@ def open_to_website(browser):
         writer.writerows(results)  
 
     print(f"Data telah disimpan ke dalam file '{filename}'")
-
-
-
-
-    # output_ = 'For The Dads'
-
-    # divs = soup.find_all('div', class_='et_pb_toggle_content clearfix')
-
-
-    # data = []
-
-    # for div in divs:
-    #     current_entry = {}
-    #     for p in div.find_all('p'):
-    #         text = p.get_text(strip=True)
-    #         link = p.find('a')
-    #         href = link['href'] if link else None
-
-    #         if href:
-
-    #             if current_entry:
-    #                 data.append(current_entry)
-    #                 current_entry = {}
-
-    #             current_entry['Name'] = text
-    #             current_entry['Url'] = href
-
-    #         elif text and text != '\xa0':  
-    #             if 'Address' not in current_entry:
-    #                 current_entry['Address'] = text
-    #             else:
-    #                 current_entry['Address'] += f", {text}"
-
-
-    #     if current_entry:
-    #         data.append(current_entry)
-
-    # for result in data:
-    #     print(f"Name = {result.get('Name', 'N/A')}")
-    #     print(f"Address = {result.get('Address', 'N/A')}")
-    #     print(f"Url = {result.get('Url', 'N/A')}")
-    #     print()
-
-
-
-
-    # csv_file = f'{output_}.csv'
-    # with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
-    #     writer = csv.DictWriter(file, fieldnames=['County','Title','Name','Address', 'Contact', 'Email','Url'])
-    #     writer.writeheader()
-    #     writer.writerows(data)
-
 
 
 def main():
