@@ -71,7 +71,7 @@ def open_to_website(browser):
     results = []
 
 
-    browser.get("https://newtownmoms.com/resources/aquatics/")
+    browser.get("https://newtownmoms.com/resources/attractions/")
     time.sleep(10)
 
 
@@ -82,13 +82,13 @@ def open_to_website(browser):
 
     results = []
 
-    title_name = 'Aquatics'
+    title_name = 'Attractions'
     
     # reviews_1 = soup.find_all('div', class_=['et_pb_tab et_pb_tab_0 clearfix', 'et_pb_tab et_pb_tab_1 clearfix', 'et_pb_tab et_pb_tab_2 clearfix','et_pb_tab et_pb_tab_3 clearfix','et_pb_tab et_pb_tab_4 clearfix','et_pb_tab et_pb_tab_5 clearfix','et_pb_tab et_pb_tab_6 clearfix','et_pb_tab et_pb_tab_7 clearfix','et_pb_tab et_pb_tab_8 clearfix','et_pb_tab et_pb_tab_9 clearfix','et_pb_tab et_pb_tab_10 clearfix','et_pb_tab et_pb_tab_11 clearfix','et_pb_tab et_pb_tab_12 clearfix','et_pb_tab et_pb_tab_12 clearfix','et_pb_tab et_pb_tab_13 clearfix','et_pb_tab et_pb_tab_14 clearfix','et_pb_tab et_pb_tab_15 clearfix','et_pb_tab et_pb_tab_16 clearfix','et_pb_tab et_pb_tab_17 clearfix','et_pb_tab et_pb_tab_18 clearfix','et_pb_tab et_pb_tab_19 clearfix','et_pb_tab et_pb_tab_20 clearfix','et_pb_tab et_pb_tab_21 clearfix'])
 
     # reviews_1 = soup.find_all('div', class_=['et_pb_toggle_content clearfix'])
     
-    reviews_1 = soup.find_all('div', class_=['et_pb_tab et_pb_tab_0 clearfix', 'et_pb_tab et_pb_tab_1 clearfix', 'et_pb_tab et_pb_tab_2 clearfix','et_pb_tab et_pb_tab_3 clearfix'])
+    reviews_1 = soup.find_all('div', class_=['et_pb_tab et_pb_tab_0 clearfix', 'et_pb_tab et_pb_tab_1 clearfix', 'et_pb_tab et_pb_tab_2 clearfix','et_pb_tab et_pb_tab_3 clearfix','et_pb_tab et_pb_tab_4 clearfix','et_pb_tab et_pb_tab_5 clearfix'])
 
     for page_ in reviews_1:
         paragraphs_1 = page_.find_all('p')
